@@ -105,7 +105,7 @@ class BackpackViewController: UITableViewController {
                 if let pokemonData = self.data {
                     let annotation = pokemonData[indexPath.row]
                     // TODO(dkg): ask user if we really should do this!
-                    self.db.removePokemonFromBackpack(annotation.pokemon)
+                    self.db.removePokemonFromBackpack(annotation.pokemon, caughtOnDate: annotation.found!)
                     
                     self.tableView.setEditing(false, animated: true)
                     

@@ -19,6 +19,8 @@ private let CELL_IDENTIFIER_LOAD_MORE: String = "pokemonTableLoadMoreCell"
 //            better BaseListViewController class implementation for common code
 // TODO(dkg): add search bar to filter list
 // TODO(dkg): add a ProgressView when ever downloading either JSON or Images
+// TODO(dkg): need a way to invalidate the response cache
+
 class ListViewController: UITableViewController {
     
     let dl = Downloader()
@@ -46,19 +48,9 @@ class ListViewController: UITableViewController {
         self.title = "Pokemons"
         
         busyIndicator = BusyOverlay()
-
-//        let (offset, limit) = DB().getLastUsedOffsetLimit(APIType.ListPokemon)
-//        if let offset = offset {
-//            self.currentOffset = offset
-//        }
-//        if let limit = limit {
-//            self.currentLimit = limit
-//        }
      
         // Load data from cache, and if we don't have any, request it from the server
         loadData()
-        
-        // TODO(dkg): need a way to invalidate the response cache
     }
  
     func loadData() {
@@ -420,9 +412,6 @@ class ListViewController: UITableViewController {
         // NOTE(dkg): Maybe use a 3rd party library for this instead, that allows swipes in all directions and has different
         //            animation options for the swipe, e.g. https://github.com/MortimerGoro/MGSwipeTableCell
 
-        // TODO(dkg): implement the following
-        //              - "catch" -> try to catch that pokemon (you can catch as many of the same as you want)
-        
         if let pokemonData = data {
             let pokemonJson = pokemonData[indexPath.row]
             let pokemon = self.transformer.jsonToPokemonModel(pokemonJson)!

@@ -100,6 +100,7 @@ public final class DB {
                 let rowid = try db.run(insert)
                 log("inserted data: \(rowid)")
             } catch {
+                // TODO(dkg): catch the "database is locked" error and try again after a few milliseconds
                 logWarn("could not insert data: \(error)")
             }
         }
@@ -433,11 +434,12 @@ public final class DB {
         }
     }
     
-    public func removePokemonFromBackpack(pokemon: Pokemon) {
+    public func removePokemonFromBackpack(pokemon: Pokemon, caughtOnDate: NSDate) {
         let backpackTable = Table("backpack")
         let pokemonColumn = Expression<Int>("pokemon_id")
+        let dateColumn = Expression<NSDate>("founddate")
         let pokemonRow = backpackTable.filter(pokemonColumn == pokemon.id)
-        
+                                      .filter(dateColumn == caughtOnDate)
         do {
             let rowid = try db.run(pokemonRow.delete())
             log("delete pokemon \(pokemon.id) data from backpack: \(rowid)")
