@@ -58,8 +58,7 @@ http://www.iconarchive.com/show/cold-fusion-hd-icons-by-chrisbanks2/pokemon-icon
 
 Most other icons are from https://icons8.com
 
-Font: Roboto by Google Material Design
-Font: Noto by Google Material Design
+Fonts: Roboto, Noto by Google Material Design
 https://www.google.com/design/spec/style/typography.html
 
 
