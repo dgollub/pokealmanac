@@ -1,0 +1,5705 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+ 
+<head>
+<meta charset="utf-8">
+<title>
+pokéapi - The Pokemon RESTful API
+</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Pokeapi The Pokemon RESTful API">
+<meta name="author" content="Paul Hallett">
+<link href="/static/pokemon/css/bootstrap.min.css" rel="stylesheet">
+<link href="/static/pokemon/css/custom.css" rel="stylesheet">
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+      </script>
+    <![endif]-->
+<link rel="shortcut icon" href="/static/favicon.ico">
+<script src="/static/pokemon/js/jquery.js">
+    </script>
+<script src="/static/pokemon/js/bootstrap.min.js">
+    </script>
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<div class="navbar-brand">
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="http://pokeapi.co" data-text="Pokéapi - the Pokémon RESTful API " data-via="phalt_" data-related="phalt_">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+</div>
+</div>
+<div class="collapse navbar-collapse navbar-right">
+<ul class="nav navbar-nav">
+<li><a href="/">Home</a></li>
+<li><a href="/about/">About</a></li>
+<li class="active"><a href="#">Documentation</a></li>
+</ul>
+</div> 
+</div>
+</div>
+<section id="docs">
+<div class="header">
+<h1>Pokeapi V2 Documentation</h1>
+</div>
+<div class="container">
+<div class="row pad_top">
+<div class="col-sm-3 side-nav">
+<div class="nav-group">
+<ul class="version-select">
+<li><a href="/docsv1/">V1</a></li>
+<li class="active"><a href="#">V2</a></li>
+</ul>
+<div class="doc-select hidden-xs">
+<ul>
+<li><a href="#info">Information</a></li>
+<li><a href="#wrap">Wrappers</a></li>
+<hr>
+<li><a href="#resource-lists">Resource Lists</a></li>
+<hr>
+<li class="parent"><a href="#berries-section">Berries</a>
+<ul>
+<li><a href="#berries">Berries</a></li>
+<li><a href="#berry-firmnesses">Berry Firmnesses</a></li>
+<li><a href="#berry-flavors">Berry Flavors</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#contests-section">Contests</a>
+<ul>
+<li><a href="#contest-types">Contest Types</a></li>
+<li><a href="#contest-effects">Contest Effects</a></li>
+<li><a href="#super-contest-effects">Super Contest Effects</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#encounters-section">Encounters</a>
+<ul>
+<li><a href="#encounter-methods">Encounter Methods</a></li>
+<li><a href="#encounter-conditions">Encounter Conditions</a></li>
+<li><a href="#encounter-condition-values">Encounter Condition Values</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#evolution-section">Evolution</a>
+<ul>
+<li><a href="#evolution-chains">Evolution Chains</a></li>
+<li><a href="#evolution-triggers">Evolution Triggers</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#games-section">Games</a>
+<ul>
+<li><a href="#generations">Generations</a></li>
+<li><a href="#pokedexes">Pokedexes</a></li>
+<li><a href="#versions">Versions</a></li>
+<li><a href="#version-groups">Version Groups</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#items-section">Items</a>
+<ul>
+<li><a href="#items">Items</a></li>
+<li><a href="#item-attributes">Item Attributes</a></li>
+<li><a href="#item-categories">Item Categories</a></li>
+<li><a href="#item-fling-effects">Item Fling Effects</a></li>
+<li><a href="#item-pockets">Item Pockets</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#moves-section">Moves</a>
+<ul>
+<li><a href="#moves">Moves</a></li>
+<li><a href="#move-ailments">Move Ailments</a></li>
+<li><a href="#move-battle-styles">Move Battle Styles</a></li>
+<li><a href="#move-categories">Move Categories</a></li>
+<li><a href="#move-damage-classes">Move Damage Classes</a></li>
+<li><a href="#move-learn-methods">Move Learn Methods</a></li>
+<li><a href="#move-targets">Move Targets</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#locations-section">Locations</a>
+<ul>
+<li><a href="#locations">Locations</a></li>
+<li><a href="#location-areas">Location Areas</a></li>
+<li><a href="#pal-park-areas">Pal Park Areas</a></li>
+<li><a href="#regions">Regions</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#pokemon-section">Pokemon</a>
+<ul>
+<li><a href="#abilities">Abilities</a></li>
+<li><a href="#characteristics">Characteristics</a></li>
+<li><a href="#egg-groups">Egg Groups</a></li>
+<li><a href="#genders">Genders</a></li>
+<li><a href="#growth-rates">Growth Rates</a></li>
+<li><a href="#natures">Natures</a></li>
+<li><a href="#pokeathlon-stats">Pokeathlon Stats</a></li>
+<li><a href="#pokemon">Pokemon</a></li>
+<li><a href="#pokemon-colors">Pokemon Colors</a></li>
+<li><a href="#pokemon-forms">Pokemon Forms</a></li>
+<li><a href="#pokemon-habitats">Pokemon Habitats</a></li>
+<li><a href="#pokemon-shapes">Pokemon Shapes</a></li>
+<li><a href="#pokemon-species">Pokemon Species</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#types">Types</a></li>
+</ul>
+</li>
+<li class="parent"><a href="#utility-section">Utility</a>
+<ul>
+<li><a href="#languages">Languages</a></li>
+</ul>
+</li>
+<hr>
+<li><a href="#common-models">Common Models</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-sm-9 docs-body">
+<h2 id="info">Information</h2>
+<p class="lead">Please take note when using this API:</p>
+<ul>
+<li>This is a <b>consumption-only</b> API - only the HTTP GET method is available on resources.</li>
+<li><b>No authentication</b> is required to access this API. All resources are fully open and available.</li>
+<ul>
+<li>There is, however, a daily rate limit of 300 requests <b>per resource</b> per IP address. So a single IP address can call the <i>bulbasaur</i> resource 300 times a day. Not 300 requests across the entire dataset! This is to stop our database from falling over under heavy load.</li>
+</ul>
+<li>If you are going to be regularly using the API, I recommend caching data on your service.</li>
+<ul>
+<li>Luckily, we provide <b>modified/created datetime stamps</b> on every single resource so you can check for updates (and thus make your caching efficient).</li>
+</ul>
+</ul>
+<h2 id="wrap">Wrappers</h2>
+<ul>
+<li><b>Node</b> - <a href='https://github.com/TheTommyTwitch/pokedex-promise-v2'>Pokedex Promise v2</a> by Thomas Asadurian.</li>
+<li><b>.NET (C#, VB, etc)</b> - <a href="https://gitlab.com/PoroCYon/PokeApi.NET">PokeApi.NET</a> by PoroCYon</li>
+</ul>
+<h1 id="pokeapi-v2-api-reference">Pokeapi V2 API Reference</h1>
+<table class="hide">
+<tbody>
+<tr>
+<th colspan="3">API Endpoints</th>
+</tr>
+<tr>
+<td>
+<ul>
+<li><a href="#abilities">Abilities</a></li>
+<li><a href="#berries">Berries</a></li>
+<li><a href="#berry-firmnesses">Berry Firmnesses</a></li>
+<li><a href="#berry-flavors">Berry Flavors</a></li>
+<li><a href="#characteristics">Characteristics</a></li>
+<li><a href="#contest-types">Contest Types</a></li>
+<li><a href="#contest-effects">Contest Effects</a></li>
+<li><a href="#egg-groups">Egg Groups</a></li>
+<li><a href="#encounter-methods">Encounter Methods</a></li>
+<li><a href="#encounter-conditions">Encounter Conditions</a></li>
+<li><a href="#encounter-condition-values">Encounter Condition Values</a></li>
+<li><a href="#evolution-chains">Evolution Chains</a></li>
+<li><a href="#evolution-triggers">Evolution Triggers</a></li>
+<li><a href="#generations">Generations</a></li>
+<li><a href="#genders">Genders</a></li>
+<li><a href="#growth-rates">Growth Rates</a></li>
+</ul>
+</td>
+<td>
+<ul>
+<li><a href="#items">Items</a></li>
+<li><a href="#item-categories">Item Categories</a></li>
+<li><a href="#item-attributes">Item Attributes</a></li>
+<li><a href="#item-fling-effects">Item Fling Effects</a></li>
+<li><a href="#item-pockets">Item Pockets</a></li>
+<li><a href="#languages">Languages</a></li>
+<li><a href="#locations">Locations</a></li>
+<li><a href="#location-areas">Location Areas</a></li>
+<li><a href="#moves">Moves</a></li>
+<li><a href="#move-ailments">Move Ailments</a></li>
+<li><a href="#move-battle-styles">Move Battle Styles</a></li>
+<li><a href="#move-categories">Move Categories</a></li>
+<li><a href="#move-damage-classes">Move Damage Classes</a></li>
+<li><a href="#move-learn-methods">Move Learn Methods</a></li>
+<li><a href="#move-targets">Move Targets</a></li>
+<li><a href="#natures">Natures</a></li>
+</ul>
+</td>
+<td>
+<ul>
+<li><a href="#pal-park-areas">Pal Park Areas</a></li>
+<li><a href="#pokedexes">Pokédexes</a></li>
+<li><a href="#pokemon">Pokémon</a></li>
+<li><a href="#pokemon-colors">Pokémon Colors</a></li>
+<li><a href="#pokemon-forms">Pokémon Forms</a></li>
+<li><a href="#pokemon-habitats">Pokémon Habitats</a></li>
+<li><a href="#pokemon-shapes">Pokémon Shapes</a></li>
+<li><a href="#pokemon-species">Pokémon Species</a></li>
+<li><a href="#pokeathlon-stats">Pokéathlon Stats</a></li>
+<li><a href="#regions">Regions</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#super-contest-effects">Super Contest Effects</a></li>
+<li><a href="#types">Types</a></li>
+<li><a href="#version">Versions</a></li>
+<li><a href="#version-groups">Version Groups</a></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<h2 id="resource-lists">Resource Lists</h2>
+<p>Calling any API endpoint without a resource ID or name will return a paginated list of available resources for that API. By default, a list 'page' will contain up to 20 resources. If you would like to change this just add a 'limit' query param, e.g. <code>limit=60</code>.</p>
+<h3 id="get-apiv2endpoint">GET api/v2/{endpoint}</h3>
+<h6 id="example-response-for-unnamed-resources">Example response for unnamed resources</h6>
+<pre><code>{
+    "count": 365,
+    "next": "http://pokeapi.co/api/v2/evolution-chain/?limit=20&amp;offset=20",
+    "previous": null,
+    "results": [{
+        "url": "http://pokeapi.co/api/v2/evolution-chain/1/"
+    }]
+}
+</code></pre>
+<h4 id="apiresourcelist">APIResourceList</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>count</td>
+<td>The total number of resources abailable from this API</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>next</td>
+<td>The url for the next 'page' in the list</td>
+<td>string</td>
+</tr>
+<tr>
+<td>previous</td>
+<td>The url for the previous page in the list</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>results</td>
+<td>I list of unnamed API resources</td>
+<td>list <a href="#apiresource">APIResource</a></td>
+</tr>
+</tbody>
+</table>
+<h6 id="example-response-for-named-resources">Example response for named resources</h6>
+<pre><code>{
+    "count": 248,
+    "next": "http://pokeapi.co/api/v2/ability/?limit=20&amp;offset=20",
+    "previous": null,
+    "results": [{
+        "name": "stench",
+        "url": "http://pokeapi.co/api/v2/ability/1/"
+    }]
+}
+</code></pre>
+<h4 id="namedapiresourcelist">NamedAPIResourceList</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>count</td>
+<td>The total number of resources abailable from this API</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>next</td>
+<td>The url for the next 'page' in the list</td>
+<td>string</td>
+</tr>
+<tr>
+<td>previous</td>
+<td>The url for the previous page in the list</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>results</td>
+<td>I list of named API resources</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="berries-section">Berries</h1>
+<h2 id="berries">Berries</h2>
+<p>Berries are small fruits that can provide HP and status condition restoration, stat enhancement, and even damage negation when eaten by Pokémon. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Berry">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2berryid-or-name">GET api/v2/berry/{id or name}</h3>
+<h6 id="example-response">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "cheri",
+    "growth_time": 3,
+    "max_harvest": 5,
+    "natural_gift_power": 60,
+    "size": 20,
+    "smoothness": 25,
+    "soil_dryness": 15,
+    "firmness": {
+        "name": "soft",
+        "url": "http://pokeapi.co/api/v2/berry-firmness/2/"
+    },
+    "flavors": [{
+        "potency": 10,
+        "flavor": {
+            "name": "spicy",
+            "url": "http://pokeapi.co/api/v2/berry-flavor/1/"
+        }
+    }],
+    "item": {
+        "name": "cheri-berry",
+        "url": "http://pokeapi.co/api/v2/item/126/"
+    },
+    "natural_gift_type": {
+        "name": "fire",
+        "url": "http://pokeapi.co/api/v2/type/10/"
+    }
+}
+
+</code></pre>
+<h6 id="response-models">Response models</h6>
+<h4 id="berry">Berry</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this berry resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this berry resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>growth_time</td>
+<td>Time it takes the tree to grow one stage, in hours. Berry trees go through four of these growth stages before they can be picked.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>max_harvest</td>
+<td>The maximum number of these berries that can grow on one tree in Generation IV</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>natural_gift_power</td>
+<td>The power of the move "Natural Gift" when used with this Berry</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>size</td>
+<td>The size of this Berry, in millimeters</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>smoothness</td>
+<td>The smoothness of this Berry, used in making Pokéblocks or Poffins</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>soil_dryness</td>
+<td>The speed at which this Berry dries out the soil as it grows. A higher rate means the soil dries more quickly.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>firmness</td>
+<td>The firmness of this berry, used in making Pokéblocks or Poffins</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#berry-firmnesses">BerryFirmness</a>)</td>
+</tr>
+<tr>
+<td>flavors</td>
+<td>A list of references to each flavor a berry can have and the potency of each of those flavors in regard to this berry</td>
+<td>list <a href="#berryflavormap">BerryFlavorMap</a></td>
+</tr>
+<tr>
+<td>item</td>
+<td>Berries are actually items. This is a reference to the item specific data for this berry.</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+<tr>
+<td>natural_gift_type</td>
+<td>The Type the move "Natural Gift" has when used with this Berry</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="berryflavormap">BerryFlavorMap</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>potency</td>
+<td>How powerful the referenced flavor is for this berry</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>flavor</td>
+<td>The referenced berry flavor</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#berry-flavors">BerryFlavor</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="berry-firmnesses">Berry Firmnesses</h2>
+<h3 id="get-apiv2berry-firmnessid-or-name">GET api/v2/berry-firmness/{id or name}</h3>
+<h6 id="example-response-2">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "very-soft",
+    "berries": [{
+        "name": "pecha",
+        "url": "http://pokeapi.co/api/v2/berry/3/"
+    }],
+    "names": [{
+        "name": "Very Soft",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-2">Response models</h6>
+<h4 id="berryfirmness">BerryFirmness</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this berry firmness resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this berry firmness resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>berries</td>
+<td>A list of the berries with this firmness</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#berries">Berry</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this berry firmness listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="berry-flavors">Berry Flavors</h2>
+<p>Flavors determine whether a Pokémon will benefit or suffer from eating a berry based on their <a href="#natures">nature</a>. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Flavor">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2berry-flavorid-or-name">GET api/v2/berry-flavor/{id or name}</h3>
+<h6 id="example-response-3">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "spicy",
+    "berries": [{
+        "potency": 10,
+        "berry": {
+            "name": "rowap",
+            "url": "http://pokeapi.co/api/v2/berry/64/"
+        }
+    }],
+    "contest_type": {
+        "name": "cool",
+        "url": "http://pokeapi.co/api/v2/contest-type/1/"
+    },
+    "names": [{
+        "name": "Spicy",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-3">Response models</h6>
+<h4 id="berryflavor">BerryFlavor</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this berry flavor resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this berry flavor resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>berries</td>
+<td>A list of the berries with this flavor</td>
+<td>list <a href="#flavorberrymap">FlavorBerryMap</a></td>
+</tr>
+<tr>
+<td>contest_type</td>
+<td>The contest type that correlates with this berry flavor</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#contest-types">ContestType</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this berry flavor listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="flavorberrymap">FlavorBerryMap</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>potency</td>
+<td>How powerful the referenced flavor is for this berry</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>berry</td>
+<td>The berry with the referenced flavor</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#berry">Berry</a>)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="contests-section">Contests</h1>
+<h2 id="contest-types">Contest Types</h2>
+<p>Contest types are categories judges used to weigh a Pokémon's condition in Pokémon contests. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Contest_condition">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2contest-typeid-or-name">GET api/v2/contest-type/{id or name}</h3>
+<h6 id="example-response-4">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "cool",
+    "berry_flavor": {
+        "name": "spicy",
+        "url": "http://pokeapi.co/api/v2/berry-flavor/1/"
+    },
+    "names": [{
+        "name": "Cool",
+        "color": "Red",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-4">Response models</h6>
+<h4 id="contesttype">ContestType</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this contest type resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this contest type resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>berry_flavor</td>
+<td>The berry flavor that correlates with this contest type</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#berry-flavors">BerryFlavor</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this contest type listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="contest-effects">Contest Effects</h2>
+<p>Contest effects refer to the effects of moves when used in contests.</p>
+<h3 id="get-apiv2contest-effectid">GET api/v2/contest-effect/{id}</h3>
+<h6 id="example-response-5">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "appeal": 4,
+    "jam": 0,
+    "effect_entries": [{
+        "effect": "Gives a high number of appeal points wth no other effects.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "flavor_text_entries": [{
+        "flavor_text": "A highly appealing move.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-5">Response models</h6>
+<h4 id="contesteffect">ContestEffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this contest type resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>appeal</td>
+<td>The base number of hearts the user of this move gets</td>
+<td>string</td>
+</tr>
+<tr>
+<td>jam</td>
+<td>The base number of hearts the user's opponent loses</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>effect_entries</td>
+<td>The result of this contest effect listed in different languages</td>
+<td>list <a href="#effect">Effect</a></td>
+</tr>
+<tr>
+<td>flavor_text_entries</td>
+<td>The flavor text of this contest effect listed in different languages</td>
+<td>list <a href="#flavortext">FlavorText</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="super-contest-effects">Super Contest Effects</h2>
+<p>Super contest effects refer to the effects of moves when used in super contests.</p>
+<h3 id="get-apiv2super-contest-effectid">GET api/v2/super-contest-effect/{id}</h3>
+<h6 id="example-response-6">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "appeal": 2,
+    "flavor_text_entries": [{
+        "flavor_text": "Enables the user to perform first in the next turn.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "moves": [{
+        "name": "agility",
+        "url": "http://pokeapi.co/api/v2/move/97/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-6">Response models</h6>
+<h4 id="supercontesteffect">SuperContestEffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this super contest effect resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>appeal</td>
+<td>The level of appeal this super contest effect has</td>
+<td>string</td>
+</tr>
+<tr>
+<td>flavor_text_entries</td>
+<td>The flavor text of this super contest effect listed in different languages</td>
+<td>list <a href="#flavortext">FlavorText</a></td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that have the effect when used in super contests</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="encounters-section">Encounters</h1>
+<h2 id="encounter-methods">Encounter Methods</h2>
+<p>Methods by which the player might can encounter Pokémon in the wild, e.g., walking in tall grass. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Wild_Pokémon">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2encounter-methodid-or-name">GET api/v2/encounter-method/{id or name}</h3>
+<h6 id="example-response-7">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "walk",
+    "order": 1,
+    "names": [{
+        "name": "Walking in tall grass or a cave",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-7">Response models</h6>
+<h4 id="encountermethod">EncounterMethod</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this encounter method resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this encounter method resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>order</td>
+<td>A good value for sorting</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this encounter method listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="encounter-conditions">Encounter Conditions</h2>
+<p>Conditions which affect what pokemon might appear in the wild, e.g., day or night.</p>
+<h3 id="get-apiv2encounter-conditionid-or-name">GET api/v2/encounter-condition/{id or name}</h3>
+<h6 id="example-response-8">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "swarm",
+    "values": [{
+        "name": "swarm-yes",
+        "url": "http://pokeapi.co/api/v2/encounter-condition-value/1/"
+    }, {
+        "name": "swarm-no",
+        "url": "http://pokeapi.co/api/v2/encounter-condition-value/2/"
+    }],
+    "names": [{
+        "name": "Schwarm",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-8">Response models</h6>
+<h4 id="encountercondition">EncounterCondition</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this encounter condition resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this encounter condition resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this encounter method listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>values</td>
+<td>A list of possible values for this encounter condition</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#encounter-condition-values">EncounterConditionValue</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="encounter-condition-values">Encounter Condition Values</h2>
+<p>Encounter condition values are the various states that an encounter condition can have, i.e., time of day can be either day or night.</p>
+<h3 id="get-apiv2encounter-condition-valueid-or-name">GET api/v2/encounter-condition-value/{id or name}</h3>
+<h6 id="example-response-9">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "swarm-yes",
+    "condition": {
+        "name": "swarm",
+        "url": "http://pokeapi.co/api/v2/encounter-condition/1/"
+    },
+    "names": [{
+        "name": "WÃ¤hrend eines Schwarms",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-9">Response models</h6>
+<h4 id="encounterconditionvalue">EncounterConditionValue</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this encounter condition value resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this encounter condition value resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>condition</td>
+<td>The condition this encounter condition value pertains to</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#encounter-conditions">EncounterCondition</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this encounter condition value listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="evolution-section">Evolution</h1>
+<h2 id="evolution-chains">Evolution Chains</h2>
+<p>Evolution chains are essentially family trees. They start with the lowest stage within a family and detail evolution conditions for each as well as Pokémon they can evolve into up through the hierarchy.</p>
+<h3 id="get-apiv2evolution-chainid">GET api/v2/evolution-chain/{id}</h3>
+<h6 id="example-response-10">Example response</h6>
+<pre><code>{
+    "id": 7,
+    "baby_trigger_item": null,
+    "chain": {
+        "is_baby": false,
+        "species": {
+            "name": "rattata",
+            "url": "http://pokeapi.co/api/v2/pokemon-species/19/"
+        },
+        "evolution_details": null,
+        "evolves_to": [{
+            "is_baby": false,
+            "species": {
+                "name": "raticate",
+                "url": "http://pokeapi.co/api/v2/pokemon-species/20/"
+            },
+            "evolution_details": {
+                "item": null,
+                "trigger": {
+                    "name": "level-up",
+                    "url": "http://pokeapi.co/api/v2/evolution-trigger/1/"
+                },
+                "gender": null,
+                "held_item": null,
+                "known_move": null,
+                "known_move_type": null,
+                "location": null,
+                "min_level": 20,
+                "min_happiness": null,
+                "min_beauty": null,
+                "min_affection": null,
+                "needs_overworld_rain": false,
+                "party_species": null,
+                "party_type": null,
+                "relative_physical_stats": null,
+                "time_of_day": "",
+                "trade_species": null,
+                "turn_upside_down": false
+            },
+            "evolves_to": []
+        }]
+    }
+}
+</code></pre>
+<h6 id="response-models-10">Response models</h6>
+<h4 id="evolutionchain">EvolutionChain</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this evolution chain resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>baby_trigger_item</td>
+<td>The item that a Pokémon would be holding when mating that would trigger the egg hatching a baby Pokémon rather than a basic Pokémon</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+<tr>
+<td>chain</td>
+<td>The base chain link object. Each link contains evolution details for a Pokémon in the chain. Each link references the next Pokémon in the natural evolution order.</td>
+<td><a href="#chainlink">ChainLink</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="chainlink">ChainLink</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is_baby</td>
+<td>Whether or not this link is for a baby Pokémon. This would only ever be true on the base link.</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>species</td>
+<td>The Pokémon species at this point in the evolution chain</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+<tr>
+<td>evolution_details</td>
+<td>All details regarding the specific details of the referenced Pokémon species evolution</td>
+<td><a href="#evolutiondetail">EvolutionDetail</a></td>
+</tr>
+<tr>
+<td>evolves_to</td>
+<td>A List of chain objects.</td>
+<td>list <a href="#chainlink">ChainLink</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="evolutiondetail">EvolutionDetail</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>item</td>
+<td>The item required to cause evolution this into Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+<tr>
+<td>trigger</td>
+<td>The type of event that triggers evolution into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#evolution-triggers">EvolutionTrigger</a>)</td>
+</tr>
+<tr>
+<td>gender</td>
+<td>The gender the evolving Pokémon species must be in order to evolve into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#genders">Gender</a>)</td>
+</tr>
+<tr>
+<td>held_item</td>
+<td>The item the evolving Pokémon species must be holding during the evolution trigger event to evolve into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+<tr>
+<td>known_move</td>
+<td>The move that must be known by the evolving Pokémon species during the evolution trigger event in order to evolve into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>known_move_type</td>
+<td>The evolving Pokémon species must know a move with this type during the evolution trigger event in order to evolve into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>location</td>
+<td>The location the evolution must be triggered at.</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#locations">Location</a>)</td>
+</tr>
+<tr>
+<td>min_level</td>
+<td>The minimum required level of the evolving Pokémon species to evolve into this Pokémon species</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>min_happiness</td>
+<td>The minimum required level of happiness the evolving Pokémon species to evolve into this Pokémon species</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>min_beauty</td>
+<td>The minimum required level of beauty the evolving Pokémon species to evolve into this Pokémon species</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>min_affection</td>
+<td>The minimum required level of affection the evolving Pokémon species to evolve into this Pokémon species</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>needs_overworld_rain</td>
+<td>Whether or not it must be raining in the overworld to cause evolution this Pokémon species</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>party_species</td>
+<td>The pokemon species that must be in the players party in order for the evolving Pokémon species to evolve into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+<tr>
+<td>party_type</td>
+<td>The player must have a pokemon of this type in their party during the evolution trigger event in order for the evolving Pokémon species to evolve into this Pokémon species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>relative_physical_stats</td>
+<td>The required relation between the Pokémon's Attack and Defense stats. 1 means Attack &gt; Defense. 0 means Attack = Defense. -1 means Attack &lt; Defense.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>time_of_day</td>
+<td>The required time of day. Day or night.</td>
+<td>string</td>
+</tr>
+<tr>
+<td>trade_species</td>
+<td>Pokémon species for which this one must be traded.</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">Pokemon Species</a>)</td>
+</tr>
+<tr>
+<td>turn_upside_down</td>
+<td>Whether or not the 3DS needs to be turned upside-down as this Pokémon levels up.</td>
+<td>boolean</td>
+</tr>
+</tbody>
+</table>
+<h2 id="evolution-triggers">Evolution Triggers</h2>
+<p>Evolution triggers are the events and conditions that cause a pokemon to evolve. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Methods_of_evolution">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2evolution-triggerid-or-name">GET api/v2/evolution-trigger/{id or name}</h3>
+<h6 id="example-response-11">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "level-up",
+    "names": [{
+        "name": "Level up",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "pokemon_species": [{
+        "name": "ivysaur",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/2/"
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-11">Response models</h6>
+<h4 id="evolutiontrigger">EvolutionTrigger</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this evolution trigger resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this evolution trigger resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this evolution trigger listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of pokemon species that result from this evolution trigger</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="games-section">Games</h1>
+<h2 id="generations">Generations</h2>
+<p>A generation is a grouping of the Pokémon games that separates them based on the Pokémon they include. In each generation, a new set of Pokémon, Moves, Abilities and Types that did not exist in the previous generation are released.</p>
+<h3 id="get-apiv2generationid-or-name">GET api/v2/generation/{id or name}</h3>
+<h6 id="example-response-12">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "generation-i",
+    "abilities": [],
+    "main_region": {
+        "name": "kanto",
+        "url": "http://pokeapi.co/api/v2/region/1/"
+    },
+    "moves": [{
+        "name": "pound",
+        "url": "http://pokeapi.co/api/v2/move/1/"
+    }],
+    "names": [{
+        "name": "Generation I",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "pokemon_species": [{
+        "name": "bulbasaur",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/1/"
+    }],
+    "types": [{
+        "name": "normal",
+        "url": "http://pokeapi.co/api/v2/type/1/"
+    }],
+    "version_groups": [{
+        "name": "red-blue",
+        "url": "http://pokeapi.co/api/v2/version-group/1/"
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-12">Response models</h6>
+<h4 id="generation">Generation</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this generation resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this generation resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>abilities</td>
+<td>A list of abilities that were introduced in this generation</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#abilities">Ability</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this generation listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>main_region</td>
+<td>The main region travelled in this generation</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#regions">Region</a>)</td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that were introduced in this generation</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of Pokémon species that were introduced in this generation</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+<tr>
+<td>types</td>
+<td>A list of types that were introduced in this generation</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>version_groups</td>
+<td>A list of version groups that were introduced in this generation</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokedexes">Pokedexes</h2>
+<p>A Pokédex is a handheld electronic encyclopedia device; one which is capable of recording and retaining information of the various Pokémon in a given region with the exception of the national dex and some smaller dexes related to portions of a region. See <a href="http://bulbapedia.bulbagarden.net/wiki/Pokedex">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2pokedexid-or-name">GET api/v2/pokedex/{id or name}</h3>
+<h6 id="example-response-13">Example response</h6>
+<pre><code>{
+    "id": 2,
+    "name": "kanto",
+    "is_main_series": true,
+    "descriptions": [{
+        "description": "Rot/Blau/Gelb Kanto Dex",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "names": [{
+        "name": "Kanto",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "pokemon_entries": [{
+        "entry_number": 1,
+        "pokemon_species": {
+            "name": "bulbasaur",
+            "url": "http://pokeapi.co/api/v2/pokemon-species/1/"
+        }
+    }],
+    "region": {
+        "name": "kanto",
+        "url": "http://pokeapi.co/api/v2/region/1/"
+    },
+    "version_groups": [{
+        "name": "red-blue",
+        "url": "http://pokeapi.co/api/v2/version-group/1/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-13">Response models</h6>
+<h4 id="pokedex">Pokedex</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokédex resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokédex resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>is_main_series</td>
+<td>Whether or not this Pokédex originated in the main series of the video games</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The description of this Pokédex listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this Pokédex listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_entries</td>
+<td>A list of pokemon catalogued in this Pokédex and their indexes</td>
+<td>list <a href="#pokemonentry">PokemonEntry</a></td>
+</tr>
+<tr>
+<td>region</td>
+<td>The region this Pokédex catalogues pokemon for</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#regions">Region</a>)</td>
+</tr>
+<tr>
+<td>version_groups</td>
+<td>A list of version groups this Pokédex is relevent to</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonentry">PokemonEntry</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry_number</td>
+<td>The index of this pokemon species entry within the Pokédex</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>The Pokémon species being encountered</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="versions">Versions</h2>
+<p>Versions of the games, e.g., Red, Blue or Yellow. </p>
+<h3 id="get-apiv2versionid-or-name">GET api/v2/version/{id or name}</h3>
+<h6 id="example-response-14">Example response</h6>
+<pre><code>
+{
+    "id": 1,
+    "name": "red",
+    "names": [{
+        "name": "Rot",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "version_group": {
+        "name": "red-blue",
+        "url": "http://pokeapi.co/api/v2/version-group/1/"
+    }
+}
+</code></pre>
+<h6 id="response-models-14">Response models</h6>
+<h4 id="version">Version</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this version resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this version resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this version listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>version_group</td>
+<td>The version group this version belongs to</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="version-groups">Version Groups</h2>
+<p>Version groups categorize highly similar versions of the games. </p>
+<h3 id="get-apiv2version-groupid-or-name">GET api/v2/version-group/{id or name}</h3>
+<h6 id="example-response-15">example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "red-blue",
+    "order": 1,
+    "generation": {
+        "name": "generation-i",
+        "url": "http://pokeapi.co/api/v2/generation/1/"
+    },
+    "move_learn_methods": [{
+        "name": "level-up",
+        "url": "http://pokeapi.co/api/v2/move-learn-method/1/"
+    }],
+    "pokedexes": [{
+        "name": "kanto",
+        "url": "http://pokeapi.co/api/v2/pokedex/2/"
+    }],
+    "regions": [{
+        "name": "kanto",
+        "url": "http://pokeapi.co/api/v2/region/1/"
+    }],
+    "versions": [{
+        "name": "red",
+        "url": "http://pokeapi.co/api/v2/version/1/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-15">response models</h6>
+<h4 id="versiongroup">VersionGroup</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this version group resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this version group resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>order</td>
+<td>Order for sorting. Almost by date of release, except similar versions are grouped together.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>generation</td>
+<td>The generation this version was introduced in</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+<tr>
+<td>move_learn_methods</td>
+<td>A list of methods in which Pokémon can learn moves in this version group</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-learn-methods">MoveLearnMethod</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this version group listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokedexes</td>
+<td>A list of Pokédexes introduces in this version group</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokedexes">Pokedex</a>)</td>
+</tr>
+<tr>
+<td>regions</td>
+<td>A list of regions that can be visited in this version group</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#regions">Region</a>)</td>
+</tr>
+<tr>
+<td>versions</td>
+<td>The versions this version group owns</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#versions">Version</a>)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="items-section">Items</h1>
+<h2 id="items">Items</h2>
+<p>An item is an object in the games which the player can pick up, keep in their bag, and use in some manner. They have various uses, including healing, powering up, helping catch Pokémon, or to access a new area.</p>
+<h3 id="get-apiv2itemid-or-name">GET api/v2/item/{id or name}</h3>
+<h6 id="example-response-16">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "master-ball",
+    "cost": 0,
+    "fling_power": 10,
+    "fling_effect": {
+        "name":"flinch",
+        "url":"http://pokeapi.co/api/v2/item-fling-effect/7/"
+    },
+    "attributes": [{
+        "name": "holdable",
+        "url": "http://pokeapi.co/api/v2/item-attribute/5/"
+    }],
+    "category": {
+        "name": "standard-balls",
+        "url": "http://pokeapi.co/api/v2/item-category/34/"
+    },
+    "effect_entries": [{
+        "effect": "Used in battle\n:   [Catches]{mechanic:catch} a wild Pokémon without fail.\n\n    If used in a trainer battle, nothing happens and the ball is lost.",
+        "short_effect": "Catches a wild Pokémon every time.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "flavor_text_entries": [{
+        "text": "The best Poké Ball with the ultimate level of performance. With it, you will catch any wild Pokémon without fail.",
+        "version_group": {
+            "name": "x-y",
+            "url": "http://pokeapi.co/api/v2/version-group/15/"
+        },
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "game_indices": [{
+        "game_index": 1,
+        "generation": {
+            "name": "generation-vi",
+            "url": "http://pokeapi.co/api/v2/generation/6/"
+        }
+    }],
+    "names": [{
+        "name": "Master Ball",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "sprites": {
+        "default": "http://localhost:8000/media/sprites/items/master-ball.png"
+    },
+    "held_by_pokemon": [{
+        "pokemon": {
+            "name": "chansey",
+            "url": "http://pokeapi.co/api/v2/pokemon/113/"
+        },
+        "version_details": [{
+            "rarity": 50,
+            "version": {
+                "name": "soulsilver",
+                "url": "http://pokeapi.co/api/v2/version/16/"
+            }
+        }]
+    }],
+    "baby_trigger_for": {
+        "url":"http://pokeapi.co/api/v2/evolution-chain/1/"
+    }
+}
+</code></pre>
+<h6 id="response-models-16">Response models</h6>
+<h4 id="item">Item</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this item resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this item resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>cost</td>
+<td>The price of this item in stores</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>fling_power</td>
+<td>The power of the move Fling when used with this item.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>fling_effect</td>
+<td>The effect of the move Fling when used with this item</td>
+<td><a href="#item-fling-effects">ItemFlingEffect</a></td>
+</tr>
+<tr>
+<td>attributes</td>
+<td>A list of attributes this item has</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#item-attributes">ItemAttribute</a>)</td>
+</tr>
+<tr>
+<td>category</td>
+<td>The category of items this item falls into</td>
+<td><a href="#item-categories">ItemCategory</a></td>
+</tr>
+<tr>
+<td>effect_entries</td>
+<td>The effect of this ability listed in different languages</td>
+<td>list <a href="#verboseeffect">VerboseEffect</a></td>
+</tr>
+<tr>
+<td>flavor_text_entries</td>
+<td>The flavor text of this ability listed in different languages</td>
+<td>list <a href="#versiongroupflavortext">VersionGroupFlavorText</a></td>
+</tr>
+<tr>
+<td>game_indices</td>
+<td>A list of game indices relevent to this item by generation</td>
+<td>list <a href="#generationgameindex">GenerationGameIndex</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this item listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>sprites</td>
+<td>A set of sprites used to depict this item in the game</td>
+<td><a href="#item-sprites">ItemSprites</a></td>
+</tr>
+<tr>
+<td>held_by_pokemon</td>
+<td>A list of Pokémon that might be found in the wild holding this item</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon">Pokemon</a>)</td>
+</tr>
+<tr>
+<td>baby_trigger_for</td>
+<td>An evolution chain this item requires to produce a bay during mating</td>
+<td>list <a href="#apiresource">APIResource</a> (<a href="#evolution-chains">EvolutionChain</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="item-sprites">Item Sprites</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default</td>
+<td>The default depiction of this item</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<h2 id="item-attributes">Item Attributes</h2>
+<p>Item attributes define particular aspects of items, e.g. "usable in battle" or "consumable".</p>
+<h3 id="get-apiv2item-attributeid-or-name">GET api/v2/item-attribute/{id or name}</h3>
+<h6 id="example-response-17">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "countable",
+    "descriptions": [{
+        "description": "Has a count in the bag",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "items": [{
+        "name": "master-ball",
+        "url": "http://pokeapi.co/api/v2/item/1/"
+    }],
+    "names": [{
+        "name": "Countable",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-17">Response models</h6>
+<h4 id="itemattribute">ItemAttribute</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this item attribute resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this item attribute resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>items</td>
+<td>A list of items that have this attribute</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this item attribute listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The description of this item attribute listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="item-categories">Item Categories</h2>
+<p>Item categories determine where items will be placed in the players bag.</p>
+<h3 id="get-apiv2item-categoryid-or-name">GET api/v2/item-category/{id or name}</h3>
+<h6 id="example-response-18">example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "stat-boosts",
+    "items": [{
+        "name": "guard-spec",
+        "url": "http://pokeapi.co/api/v2/item/55/"
+    }],
+    "names": [{
+        "name": "Stat boosts",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "pocket": {
+        "name": "battle",
+        "url": "http://pokeapi.co/api/v2/item-pocket/7/"
+    }
+}
+</code></pre>
+<h6 id="response-models-18">response models</h6>
+<h4 id="itemcategory">ItemCategory</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this item category resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this item category resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>items</td>
+<td>A list of items that are a part of this category</td>
+<td>list <a href="#items">Item</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this item category listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pocket</td>
+<td>The pocket items in this category would be put in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#item-pockets">ItemPocket</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="item-fling-effects">Item Fling Effects</h2>
+<p>The various effects of the move "Fling" when used with different items.</p>
+<h3 id="get-apiv2item-fling-effectid-or-name">GET api/v2/item-fling-effect/{id or name}</h3>
+<h6 id="example-response-19">example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "badly-poison",
+    "effect_entries": [{
+        "effect": "Badly poisons the target.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "items": [{
+        "name": "toxic-orb",
+        "url": "http://pokeapi.co/api/v2/item/249/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-19">response models</h6>
+<h4 id="itemflingeffect">ItemFlingEffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this fling effect resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this fling effect resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>effect_entries</td>
+<td>The result of this fling effect listed in different languages</td>
+<td>list <a href="#effect">Effect</a></td>
+</tr>
+<tr>
+<td>items</td>
+<td>A list of items that have this fling effect</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="item-pockets">Item Pockets</h2>
+<p>Pockets within the players bag used for storing items by category.</p>
+<h3 id="get-apiv2item-pocketid-or-name">GET api/v2/item-pocket/{id or name}</h3>
+<h6 id="example-response-20">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "misc",
+    "categories": [{
+        "name": "collectibles",
+        "url": "http://pokeapi.co/api/v2/item-category/9/"
+    }],
+    "names": [{
+        "name": "Items",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-20">Response models</h6>
+<h4 id="itempocket">ItemPocket</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this item pocket resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this item pocket resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>categories</td>
+<td>A list of item categories that are relevent to this item pocket</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#item-categories">ItemCategory</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this item pocket listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="moves-section">Moves</h1>
+<h2 id="moves">Moves</h2>
+<p>Moves are the skills of Pokémon in battle. In battle, a Pokémon uses one move each turn. Some moves (including those learned by Hidden Machine) can be used outside of battle as well, usually for the purpose of removing obstacles or exploring new areas.</p>
+<h3 id="get-apiv2moveid-or-name">GET api/v2/move/{id or name}</h3>
+<h6 id="example-response-21">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "pound",
+    "accuracy": 100,
+    "effect_chance": null,
+    "pp": 35,
+    "priority": 0,
+    "power": 40,
+    "contest_combos": {
+        "normal": {
+            "use_before": [{
+                "name": "double-slap",
+                "url": "http://pokeapi.co/api/v2/move/3/"
+            }, {
+                "name": "headbutt",
+                "url": "http://pokeapi.co/api/v2/move/29/"
+            }, {
+                "name": "feint-attack",
+                "url": "http://pokeapi.co/api/v2/move/185/"
+            }],
+            "use_after": null
+        },
+        "super": {
+            "use_before": null,
+            "use_after": null
+        }
+    },
+    "contest_type": {
+        "name": "tough",
+        "url": "http://pokeapi.co/api/v2/contest-type/5/"
+    },
+    "contest_effect": {
+        "url": "http://pokeapi.co/api/v2/contest-effect/1/"
+    },
+    "damage_class": {
+        "name": "physical",
+        "url": "http://pokeapi.co/api/v2/move-damage-class/2/"
+    },
+    "effect_entries": [{
+        "effect": "Inflicts [regular damage]{mechanic:regular-damage}.",
+        "short_effect": "Inflicts regular damage with no additional effect.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "effect_changes": [],
+    "generation": {
+        "name": "generation-i",
+        "url": "http://pokeapi.co/api/v2/generation/1/"
+    },
+    "meta": {
+        "ailment": {
+            "name": "none",
+            "url": "http://pokeapi.co/api/v2/move-ailment/0/"
+        },
+        "category": {
+            "name": "damage",
+            "url": "http://pokeapi.co/api/v2/move-category/0/"
+        },
+        "min_hits": null,
+        "max_hits": null,
+        "min_turns": null,
+        "max_turns": null,
+        "drain": 0,
+        "healing": 0,
+        "crit_rate": 0,
+        "ailment_chance": 0,
+        "flinch_chance": 0,
+        "stat_chance": 0
+    },
+    "names": [{
+        "name": "Pound",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "past_values": [],
+    "stat_changes": [],
+    "super_contest_effect": {
+        "url": "http://pokeapi.co/api/v2/super-contest-effect/5/"
+    },
+    "target": {
+        "name": "selected-pokemon",
+        "url": "http://pokeapi.co/api/v2/move-target/10/"
+    },
+    "type": {
+        "name": "normal",
+        "url": "http://pokeapi.co/api/v2/type/1/"
+    }
+}
+</code></pre>
+<h6 id="response-models-21">Response models</h6>
+<h4 id="move">Move</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>accuracy</td>
+<td>The percent value of how likely this move is to be successful</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>effect_chance</td>
+<td>The percent value of how likely it is this moves effect will happen</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pp</td>
+<td>Power points. The number of times this move can be used</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>priority</td>
+<td>A value between -8 and 8. Sets the order in which moves are executed during battle. See <a href="http://bulbapedia.bulbagarden.net/wiki/Priority">Bulbapedia</a> for greater detail.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>power</td>
+<td>The base power of this move with a value of 0 if it does not have a base power</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>contest_combos</td>
+<td>A detail of normal and super contest combos that require this move</td>
+<td>list <a href="#contestcombosets">ContestComboSets</a></td>
+</tr>
+<tr>
+<td>contest_type</td>
+<td>The type of appeal this move gives a Pokémon when used in a contest</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#contest-types">ContestType</a>)</td>
+</tr>
+<tr>
+<td>contest_effect</td>
+<td>The effect the move has when used in a contest</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#contest-effects">ContestEffect</a>)</td>
+</tr>
+<tr>
+<td>damage_class</td>
+<td>The type of damage the move inflicts on the target, e.g. physical</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-damage-classes">MoveDamageClass</a>)</td>
+</tr>
+<tr>
+<td>effect_entries</td>
+<td>The effect of this move listed in different languages</td>
+<td>list <a href="#verboseeffect">VerboseEffect</a></td>
+</tr>
+<tr>
+<td>effect_changes</td>
+<td>The list of previous effects this move has had across version groups of the games</td>
+<td>list <a href="#abilityeffectchange">AbilityEffectChange</a></td>
+</tr>
+<tr>
+<td>generation</td>
+<td>The generation in which this move was introduced</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+<tr>
+<td>meta</td>
+<td>Metadata about this move</td>
+<td><a href="#movemetadata">MoveMetaData</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this move listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>past_values</td>
+<td>A list of move resource value changes across ersion groups of the game</td>
+<td>list <a href="#pastmovestatvalues">PastMoveStatValues</a></td>
+</tr>
+<tr>
+<td>stat_changes</td>
+<td>A list of stats this moves effects and how much it effects them</td>
+<td>list <a href="#movestatchange">MoveStatChange</a></td>
+</tr>
+<tr>
+<td>contest_effect</td>
+<td>The effect the move has when used in a super contest</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#contest-effects">ContestEffect</a>)</td>
+</tr>
+<tr>
+<td>target</td>
+<td>The type of target that will recieve the effects of the attack</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-targets">MoveTarget</a>)</td>
+</tr>
+<tr>
+<td>type</td>
+<td>The elemental type of this move</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="contestcombosets">ContestComboSets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>normal</td>
+<td>A detail of moves this move can be used before or after, granting additional appeal points in contests</td>
+<td>list <a href="#contestcombodetail">ContestComboDetail</a></td>
+</tr>
+<tr>
+<td>super</td>
+<td>A detail of moves this move can be used before or after, granting additional appeal points in super contests</td>
+<td>list <a href="#contestcombodetail">ContestComboDetail</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="contestcombodetail">ContestComboDetail</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>use_before</td>
+<td>A list of moves to use before this move</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>use_after</td>
+<td>A list of moves to use after this move</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="movemetadata">MoveMetaData</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ailment</td>
+<td>The status ailment this move inflicts on its target</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-ailments">MoveAilment</a>)</td>
+</tr>
+<tr>
+<td>category</td>
+<td>The category of move this move falls under, e.g. damage or ailment</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>min_hits</td>
+<td>The minimum number of times this move hits. Null if it always only hits once.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>max_hits</td>
+<td>The maximum number of times this move hits. Null if it always only hits once.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>min_turns</td>
+<td>The minimum number of turns this move continues to take effect. Null if it always only lasts one turn.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>max_turns</td>
+<td>The maximum number of turns this move continues to take effect. Null if it always only lasts one turn.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>drain</td>
+<td>HP drain (if positive) or Recoil damage (if negative), in percent of damage done</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>healing</td>
+<td>The amount of hp gained by the attacking pokemon, in percent of it's maximum HP</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>crit_rate</td>
+<td>Critical hit rate bonus</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>ailment_chance</td>
+<td>The likelyhood this attack will cause an ailment</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>flinch_chance</td>
+<td>The likelyhood this attack will cause the target pokemon to flinch</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>stat_chance</td>
+<td>The likelyhood this attack will cause a stat change in the target pokemon</td>
+<td>integer</td>
+</tr>
+</tbody>
+</table>
+<h4 id="movestatchange">MoveStatChange</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>change</td>
+<td>The amount of change</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>stat</td>
+<td>The stat being affected</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#stats">Stat</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pastmovestatvalues">PastMoveStatValues</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>accuracy</td>
+<td>The percent value of how likely this move is to be successful</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>effect_chance</td>
+<td>The percent value of how likely it is this moves effect will take effect</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>power</td>
+<td>The base power of this move with a value of 0 if it does not have a base power</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pp</td>
+<td>Power points. The number of times this move can be used</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>effect_entries</td>
+<td>The effect of this move listed in different languages</td>
+<td>list <a href="#verboseeffect">VerboseEffect</a></td>
+</tr>
+<tr>
+<td>type</td>
+<td>The elemental type of this move</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>version group</td>
+<td>The version group in which these move stat values were in effect</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="move-ailments">Move Ailments</h2>
+<p>Move Ailments are status conditions caused by moves used during battle. See <a href="http://bulbapedia.bulbagarden.net/wiki/http://bulbapedia.bulbagarden.net/wiki/Status_condition">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2move-ailmentid-or-name">GET api/v2/move-ailment/{id or name}</h3>
+<h6 id="example-response-22">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "paralysis",
+    "moves": [{
+        "name": "thunder-punch",
+        "url": "http://pokeapi.co/api/v2/move/9/"
+    }],
+    "names": [{
+        "name": "Paralysis",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-22">Response models</h6>
+<h4 id="move-ailment">Move Ailment</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move ailment resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move ailment resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that cause this ailment</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this move ailment listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="move-battle-styles">Move Battle Styles</h2>
+<p>Styles of moves when used in the Battle Palace. See <a href="http://bulbapedia.bulbagarden.net/wiki/Battle_Frontier_(Generation_III)">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2move-battle-styleid-or-name">GET api/v2/move-battle-style/{id or name}</h3>
+<h6 id="example-response-23">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "attack",
+    "names": [{
+        "name": "Attack",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-23">Response models</h6>
+<h4 id="move-battle-style">Move Battle Style</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move battle style resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move battle style resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this move battle style listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="move-categories">Move Categories</h2>
+<p>Very general categories that loosely group move effects.</p>
+<h3 id="get-apiv2move-categoryid-or-name">GET api/v2/move-category/{id or name}</h3>
+<h6 id="example-response-24">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "ailment",
+    "descriptions": [{
+        "description": "No damage; inflicts status ailment",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "moves": [{
+        "name": "sing",
+        "url": "http://pokeapi.co/api/v2/move/47/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-24">Response models</h6>
+<h4 id="move-category">Move Category</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move category resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move category resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that fall into this category</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The description of this move ailment listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="move-damage-classes">Move Damage Classes</h2>
+<p>Damage classes moves can have, e.g. physical, special, or non-damaging.</p>
+<h3 id="get-apiv2move-damage-classid-or-name">GET api/v2/move-damage-class/{id or name}</h3>
+<h6 id="example-response-25">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "status",
+    "descriptions": [{
+        "description": "ãƒ€ãƒ¡ãƒ¼ã‚¸ãªã„",
+        "language": {
+            "name": "ja",
+            "url": "http://pokeapi.co/api/v2/language/1/"
+        }
+    }],
+    "moves": [{
+        "name": "swords-dance",
+        "url": "http://pokeapi.co/api/v2/move/14/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-25">Response models</h6>
+<h4 id="move-damage-class">Move Damage Class</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move damage class resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move damage class resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The description of this move damage class listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that fall into this damage class</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this move damage class listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="move-learn-methods">Move Learn Methods</h2>
+<p>Methods by which Pokémon can learn moves.</p>
+<h3 id="get-apiv2move-learn-methodid-or-name">GET api/v2/move-learn-method/{id or name}</h3>
+<h6 id="example-response-26">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "level-up",
+    "names": [{
+        "name": "Level up",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "descriptions": [{
+        "description": "Wird gelernt, wenn ein Pokémon ein bestimmtes Level erreicht.",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "version_groups": [{
+        "name": "red-blue",
+        "url": "http://pokeapi.co/api/v2/version-group/1/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-26">Response models</h6>
+<h4 id="move-learn-method">Move Learn Method</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move learn method resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move learn method resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The description of this move learn method listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this move learn method listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>version_groups</td>
+<td>A list of version groups where moves can be learned through this method</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="move-targets">Move Targets</h2>
+<p>Targets moves can be directed at during battle. Targets can be Pokémon, environments or even other moves.</p>
+<h3 id="get-apiv2move-targetid-or-name">GET api/v2/move-target/{id or name}</h3>
+<h6 id="example-response-27">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "specific-move",
+    "descriptions": [{
+        "description": "Eine spezifische Fähigkeit. Wie diese Fähigkeit genutzt wird, hängt von den genutzten Fähigkeiten ab.",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "moves": [{
+        "name": "counter",
+        "url": "http://pokeapi.co/api/v2/move/68/"
+    }],
+    "names": [{
+        "name": "Spezifische Fähigkeit",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-27">Response models</h6>
+<h4 id="move-target">Move Target</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this move target resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this move target resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The description of this move target listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that that are directed at this target</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this move target listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h1 id="locations-section">Locations</h1>
+<h2 id="locations">Locations</h2>
+<p>Locations that can be visited within the games. Locations make up sizable portions of regions, like cities or routes.</p>
+<h3 id="get-apiv2locationid-or-name">GET api/v2/location/{id or name}</h3>
+<h6 id="example-response-28">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "canalave-city",
+    "region": {
+        "name": "sinnoh",
+        "url": "http://pokeapi.co/api/v2/region/4/"
+    },
+    "names": [{
+        "name": "Canalave City",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "game_indices": [{
+        "game_index": 7,
+        "generation": {
+            "name": "generation-iv",
+            "url": "http://pokeapi.co/api/v2/generation/4/"
+        }
+    }],
+    "areas": [{
+        "name": "canalave-city-area",
+        "url": "http://pokeapi.co/api/v2/location-area/1/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-28">Response models</h6>
+<h4 id="location">Location</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this location resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this location resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>region</td>
+<td>The region this location can be found in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#regions">Region</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this language listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>game_indices</td>
+<td>A list of game indices relevent to this location by generation</td>
+<td>list <a href="#generationgameindex">GenerationGameIndex</a></td>
+</tr>
+<tr>
+<td>areas</td>
+<td>Areas that can be found within this location</td>
+<td><a href="#apiresource">APIResource</a> (<a href="#location-areas">LocationArea</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="location-areas">Location Areas</h2>
+<p>Location areas are sections of areas, such as floors in a building or cave. Each area has its own set of possible Pokémon encounters.</p>
+<h3 id="get-apiv2location-areaid-or-name">GET api/v2/location-area/{id or name}</h3>
+<h6 id="example-response-29">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "canalave-city-area",
+    "game_index": 1,
+    "encounter_method_rates": [{
+        "encounter_method": {
+            "name": "old-rod",
+            "url": "http://pokeapi.co/api/v2/encounter-method/2/"
+        },
+        "version_details": [{
+            "rate": 25,
+            "version": {
+                "name": "platinum",
+                "url": "http://pokeapi.co/api/v2/version/14/"
+            }
+        }]
+    }],
+    "location": {
+        "name": "canalave-city",
+        "url": "http://pokeapi.co/api/v2/location/1/"
+    },
+    "names": [{
+        "name": "",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "pokemon_encounters": [{
+        "pokemon": {
+            "name": "tentacool",
+            "url": "http://pokeapi.co/api/v2/pokemon/72/"
+        },
+        "version_details": [{
+            "version": {
+                "name": "diamond",
+                "url": "http://pokeapi.co/api/v2/version/12/"
+            },
+            "max_chance": 60,
+            "encounter_details": [{
+                "min_level": 20,
+                "max_level": 30,
+                "condition_values": [],
+                "chance": 60,
+                "method": {
+                    "name": "surf",
+                    "url": "http://pokeapi.co/api/v2/encounter-method/5/"
+                }
+            }]
+        }]
+    }]
+}
+</code></pre>
+<h6 id="response-models-29">Response models</h6>
+<h4 id="locationarea">LocationArea</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this location resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this location resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>game_index</td>
+<td>The internal id of an API resource within game data</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>encounter_method_rates</td>
+<td>A list of methods in which Pokémon may be encountered in this area and how likely the method will occur depending on the version of the game</td>
+<td>list <a href="#encountermethodrate">EncounterMethodRate</a></td>
+</tr>
+<tr>
+<td>location</td>
+<td>The region this location can be found in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#regions">Region</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this location area listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_encounters</td>
+<td>A list of Pokémon that can be encountered in this area along with version specific details about the encounter</td>
+<td>list <a href="#pokemonencounter">PokemonEncounter</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="encountermethodrate">EncounterMethodRate</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>encounter_method</td>
+<td>The method in which Pokémon may be encountered in an area.</td>
+<td><a href="#encountermehtod">EncounterMethod</a></td>
+</tr>
+<tr>
+<td>version_details</td>
+<td>The chance of the encounter to occur on a version of the game.</td>
+<td>list <a href="#encounterversiondetails">EncounterVersionDetails</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="encounterversiondetails">EncounterVersionDetails</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rate</td>
+<td>The chance of an encounter to occur.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>version</td>
+<td>The version of the game in which the encounter can occur with the given chance.</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version">Version</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonencounter">PokemonEncounter</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pokemon</td>
+<td>The Pokémon being encountered</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon">Pokemon</a>)</td>
+</tr>
+<tr>
+<td>version_details</td>
+<td>A list of versions and encounters with Pokémon that might happen in the referenced location area</td>
+<td>list <a href="#versionencounterdetail">VersionEncounterDetail</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pal-park-areas">Pal Park Areas</h2>
+<p>Areas used for grouping Pokémon encounters in Pal Park. They're like habitats that are specific to Pal Park.</p>
+<h3 id="get-apiv2pal-park-areaid-or-name">GET api/v2/pal-park-area/{id or name}</h3>
+<h6 id="example-response-30">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "forest",
+    "names": [{
+        "name": "Forest",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "pokemon_encounters": [{
+        "base_score": 30,
+        "rate": 50,
+        "pokemon_species": {
+            "name": "caterpie",
+            "url": "http://pokeapi.co/api/v2/pokemon-species/10/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-30">Response models</h6>
+<h4 id="palparkarea">PalParkArea</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this pal park area resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this pal park area resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this pal park area listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_encounters</td>
+<td>A list of Pokémon encountered in thi pal park area along with details</td>
+<td>list <a href="#palparkencounterspecies">PalParkEncounterSpecies</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="palparkencounterspecies">PalParkEncounterSpecies</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base_score</td>
+<td>The base score given to the player when this Pokémon is caught during a pal park run</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>rate</td>
+<td>The base rate for encountering this Pokémon in this pal park area</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>The Pokémon species being encountered</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemonspecies">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="regions">Regions</h2>
+<p>A region is an organized area of the Pokémon world. Most often, the main difference between regions is the species of Pokémon that can be encountered within them.</p>
+<h3 id="get-apiv2regionid-or-name">GET api/v2/region/{id or name}</h3>
+<h6 id="example-response-31">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "kanto",
+    "locations": [{
+        "name": "celadon-city",
+        "url": "http://pokeapi.co/api/v2/location/67/"
+    }],
+    "main_generation": {
+        "name": "generation-i",
+        "url": "http://pokeapi.co/api/v2/generation/1/"
+    },
+    "names": [{
+        "name": "Kanto",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "pokedexes": [{
+        "name": "kanto",
+        "url": "http://pokeapi.co/api/v2/pokedex/2/"
+    }],
+    "version_groups": [{
+        "name": "red-blue",
+        "url": "http://pokeapi.co/api/v2/version-group/1/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-31">Response models</h6>
+<h4 id="region">Region</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this region resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this region resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>locations</td>
+<td>A list of locations that can be found in this region</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#locations">Location</a>)</td>
+</tr>
+<tr>
+<td>main_generation</td>
+<td>The generation this region was introduced in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this region listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokedexes</td>
+<td>A list of pokédexes that catalogue Pokémon in this region</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokedexes">Pokedex</a>)</td>
+</tr>
+<tr>
+<td>version_groups</td>
+<td>A list of version groups where this region can be visited</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="pokemon-section">Pokemon</h1>
+<h2 id="abilities">Abilities</h2>
+<p>Abilities provide passive effects for Pokémon in battle or in the overworld. Pokémon have mutiple possible abilities but can have only one ability at a time. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Ability">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2abilityid-or-name">GET api/v2/ability/{id or name}</h3>
+<h6 id="example-response-32">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "stench",
+    "is_main_series": true,
+    "generation": {
+        "name": "generation-iii",
+        "url": "http://pokeapi.co/api/v2/generation/3/"
+    },
+    "names": [{
+        "name": "Stench",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "effect_entries": [{
+        "effect": "This Pokémon's damaging moves have a 10% chance to make the target [flinch]{mechanic:flinch} with each hit if they do not already cause flinching as a secondary effect.\n\nThis ability does not stack with a held item.\n\nOverworld: The wild encounter rate is halved while this Pokémon is first in the party.",
+        "short_effect": "Has a 10% chance of making target Pokémon [flinch]{mechanic:flinch} with each hit.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "effect_changes": [{
+        "version_group": {
+            "name": "black-white",
+            "url": "http://pokeapi.co/api/v2/version-group/11/"
+        },
+        "effect_entries": [{
+            "effect": "Has no effect in battle.",
+            "language": {
+                "name": "en",
+                "url": "http://pokeapi.co/api/v2/language/9/"
+            }
+        }]
+    }],
+    "flavor_text_entries": [{
+        "flavor_text": "è‡­ãã¦ã€€ç›¸æ‰‹ãŒ\nã²ã‚‹ã‚€ã€€ã“ã¨ãŒã‚ã‚‹ã€‚",
+        "language": {
+            "name": "ja-kanji",
+            "url": "http://pokeapi.co/api/v2/language/11/"
+        },
+        "version_group": {
+            "name": "x-y",
+            "url": "http://pokeapi.co/api/v2/version-group/15/"
+        }
+    }],
+    "pokemon": [{
+        "is_hidden": true,
+        "slot": 3,
+        "pokemon": {
+            "name": "gloom",
+            "url": "http://pokeapi.co/api/v2/pokemon/44/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-32">Response models</h6>
+<h4 id="ability">Ability</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this ability resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this ability resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>is_main_series</td>
+<td>Whether or not this ability originated in the main series of the video games</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>generation</td>
+<td>The generation this ability originated in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this ability listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>effect_entries</td>
+<td>The effect of this ability listed in different languages</td>
+<td>list <a href="#verboseeffect">VerboseEffect</a></td>
+</tr>
+<tr>
+<td>effect_changes</td>
+<td>The list of previous effects this ability has had across version groups</td>
+<td>list <a href="#abilityeffectchange">AbilityEffectChange</a></td>
+</tr>
+<tr>
+<td>flavor_text_entries</td>
+<td>The flavor text of this ability listed in different languages</td>
+<td>list <a href="#versiongroupflavortext">VersionGroupFlavorText</a></td>
+</tr>
+<tr>
+<td>pokemon</td>
+<td>A list of Pokémon that could potentially have this ability</td>
+<td>list <a href="#abilitypokemon">AbilityPokemon</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="abilityeffectchange">AbilityEffectChange</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>effect_entries</td>
+<td>The previous effect of this ability listed in different languages</td>
+<td><a href="#effect">Effect</a></td>
+</tr>
+<tr>
+<td>version_group</td>
+<td>The version group in which the previous effect of this ability originated</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#versiongroups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="abilityflavortext">AbilityFlavorText</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flavor_text</td>
+<td>The localized name for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+<tr>
+<td>version_group</td>
+<td>The version group that uses this flavor text</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="abilitypokemon">AbilityPokemon</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is_hidden</td>
+<td>Whether or not this a hidden ability for the referenced Pokémon</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>slot</td>
+<td>Pokémon have 3 ability 'slots' which hold references to possible abilities they could have. This is the slot of this ability for the referenced pokemon.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pokemon</td>
+<td>The Pokémon this ability could belong to</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon">Pokemon</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="characteristics">Characteristics</h2>
+<p>Characteristics indicate which stat contains a Pokémon's highest IV. A Pokémon's Characteristic is determined by the remainder of its highest IV divided by 5 (gene_modulo). Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Characteristic">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2characteristicid">GET api/v2/characteristic/{id}</h3>
+<h6 id="example-response-33">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "gene_modulo": 0,
+    "possible_values": [0, 5, 10, 15, 20, 25, 30],
+    "highest_stat": {
+        "name": "hp",
+        "url": "http://pokeapi.co/api/v2/stat/1/"
+    },
+    "descriptions": [{
+        "description": "Loves to eat",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-33">Response models</h6>
+<h4 id="characteristic">Characteristic</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this characteristic resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>gene_modulo</td>
+<td>The remainder of the highest stat/IV divided by 5</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>possible_values</td>
+<td>The possible values of the highest stat that would result in a Pokémon recieving this characteristic when divided by 5</td>
+<td>list integer</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The descriptions of this characteristic listed in different languages</td>
+<td>list (<a href="#description">Description</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="egg-groups">Egg Groups</h2>
+<p>Egg Groups are categories which determine which Pokémon are able to interbreed. Pokémon may belong to either one or two Egg Groups. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Egg_Group">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2egg-groupid-or-name">GET api/v2/egg-group/{id or name}</h3>
+<h6 id="example-response-34">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "monster",
+    "names": [{
+        "name": "ã‹ã„ã˜ã‚…ã†",
+        "language": {
+            "name": "ja",
+            "url": "http://pokeapi.co/api/v2/language/1/"
+        }
+    }],
+    "pokemon_species": [{
+        "name": "bulbasaur",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/1/"
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-34">Response models</h6>
+<h4 id="egggroup">EggGroup</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this egg group resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this egg group resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this egg group listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of all Pokémon species that are members of this egg group</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="genders">Genders</h2>
+<p>Genders were introduced in Generation II for the purposes of breeding Pokémon but can also result in visual differences or even different evolutionary lines. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Gender">Bulbapedia</a> for greater detail. </p>
+<h3 id="get-apiv2genderid-or-name">GET api/v2/gender/{id or name}</h3>
+<h6 id="example-response-35">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "female",
+    "pokemon_species_details": [{
+        "rate": 1,
+        "pokemon_species": {
+            "name": "bulbasaur",
+            "url": "http://pokeapi.co/api/v2/pokemon-species/1/"
+        }
+    }],
+    "required_for_evolution": [{
+        "name": "wormadam",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/413/"
+    }]
+}
+
+</code></pre>
+<h6 id="response-models-35">Response models</h6>
+<h4 id="gender">Gender</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this gender resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this gender resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>pokemon_species_details</td>
+<td>A list of Pokémon species that can be this gender and how likely it is that they will be</td>
+<td>list <a href="#pokemonspeciesgender">PokemonSpeciesGender</a></td>
+</tr>
+<tr>
+<td>required_for_evolution</td>
+<td>A list of Pokémon species that required this gender in order for a Pokémon to evolve into them</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonspeciesgender">PokemonSpeciesGender</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rate</td>
+<td>The chance of this Pokémon being female, in eighths; or -1 for genderless</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A Pokémon species that can be the referenced gender</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="growth-rates">Growth Rates</h2>
+<p>Growth rates are the speed with which Pokémon gain levels through experience. Check out <a href="http://bulbapedia.bulbagarden.net/wiki/Experience">Bulbapedia</a> for greater detail. </p>
+<h3 id="get-apiv2growth-rateid-or-name">GET api/v2/growth-rate/{id or name}</h3>
+<h6 id="example-response-36">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "slow",
+    "formula": "\\frac{5x^3}{4}",
+    "descriptions": [{
+        "description": "langsam",
+        "language": {
+            "name": "de",
+            "url": "http://pokeapi.co/api/v2/language/6/"
+        }
+    }],
+    "levels": [{
+        "level": 100,
+        "experience": 1250000
+    }],
+    "pokemon_species": [{
+        "name": "growlithe",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/58/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-36">Response models</h6>
+<h4 id="growth-rate">Growth Rate</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this gender resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this gender resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>formula</td>
+<td>The formula used to calculate the rate at which the Pokémon species gains level</td>
+<td>string</td>
+</tr>
+<tr>
+<td>descriptions</td>
+<td>The descriptions of this characteristic listed in different languages</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+<tr>
+<td>levels</td>
+<td>A list of levels and the amount of experienced needed to atain them based on this growth rate</td>
+<td>list <a href="#growthrateexperiencelevel">GrowthRateExperienceLevel</a></td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of Pokémon species that gain levels at this growth rate</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="growthrateexperiencelevel">GrowthRateExperienceLevel</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>level</td>
+<td>The level gained</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>experience</td>
+<td>The amount of experience required to reach the referenced level</td>
+<td>integer</td>
+</tr>
+</tbody>
+</table>
+<h2 id="natures">Natures</h2>
+<p>Natures influence how a Pokémon's stats grow. See <a href="http://bulbapedia.bulbagarden.net/wiki/Nature">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2natureid-or-name">GET api/v2/nature/{id or name}</h3>
+<h6 id="example-response-37">Example response</h6>
+<pre><code>{
+    "id": 2,
+    "name": "bold",
+    "decreased_stat": {
+        "name": "attack",
+        "url": "http://pokeapi.co/api/v2/stat/2/"
+    },
+    "increased_stat": {
+        "name": "defense",
+        "url": "http://pokeapi.co/api/v2/stat/3/"
+    },
+    "likes_flavor": {
+        "name": "sour",
+        "url": "http://pokeapi.co/api/v2/berry-flavor/5/"
+    },
+    "hates_flavor": {
+        "name": "spicy",
+        "url": "http://pokeapi.co/api/v2/berry-flavor/1/"
+    },
+    "pokeathlon_stat_changes": [{
+        "max_change": -2,
+        "pokeathlon_stat": {
+            "name": "speed",
+            "url": "http://pokeapi.co/api/v2/pokeathlon-stat/1/"
+        }
+    }],
+    "move_battle_style_preferences": [{
+        "low_hp_preference": 32,
+        "high_hp_preference": 30,
+        "move_battle_style": {
+            "name": "attack",
+            "url": "http://pokeapi.co/api/v2/move-battle-style/1/"
+        }
+    }],
+    "names": [{
+        "name": "ãšã¶ã¨ã„",
+        "language": {
+            "name": "ja",
+            "url": "http://pokeapi.co/api/v2/language/1/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-37">Response models</h6>
+<h4 id="nature">Nature</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this nature resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this nature resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>decreased_stat</td>
+<td>The stat decreased by 10% in Pokémon with this nature</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#stats">Stat</a>)</td>
+</tr>
+<tr>
+<td>increased_stat</td>
+<td>The stat increased by 10% in Pokémon with this nature</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#stats">Stat</a>)</td>
+</tr>
+<tr>
+<td>hates_flavor</td>
+<td>The flavor hated by Pokémon with this nature</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#berry-flavors">BerryFlavor</a>)</td>
+</tr>
+<tr>
+<td>likes_flavor</td>
+<td>The flavor liked by Pokémon with this nature</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#berry-flavors">BerryFlavor</a>)</td>
+</tr>
+<tr>
+<td>pokeathlon_stat_changes</td>
+<td>A list of Pokéathlon stats this nature effects and how much it effects them</td>
+<td>list <a href="#naturestatchange">NatureStatChange</a></td>
+</tr>
+<tr>
+<td>move_battle_style_preferences</td>
+<td>A list of battle styles and how likely a Pokémon with this nature is to use them in the Battle Palace or Battle Tent.</td>
+<td>list <a href="#movebattlestylepreference">MoveBattleStylePreference</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this nature listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="naturestatchange">NatureStatChange</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>change</td>
+<td>The amount of change</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>stat</td>
+<td>The stat being affected</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokeathlon-stats">PokeathlonStat</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="movebattlestylepreference">MoveBattleStylePreference</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>low_hp_preference</td>
+<td>Chance of using the move, in percent, if HP is under one half</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>high_hp_preference</td>
+<td>Chance of using the move, in percent, if HP is over one half</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>move_battle_style</td>
+<td>The move battle style</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-battle-styles">MoveBattleStyle</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokeathlon-stats">Pokeathlon Stats</h2>
+<p>Pokeathlon Stats are different attributes of a Pokémon's performance in Pokéathlons. In Pokéathlons, competitions happen on different courses; one for each of the different Pokéathlon stats. See <a href="http://bulbapedia.bulbagarden.net/wiki/Pokéathlon">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2pokeathlon-statid-or-name">GET api/v2/pokeathlon-stat/{id or name}</h3>
+<h6 id="example-response-38">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "speed",
+    "affecting_natures": {
+        "increase": [{
+            "max_change": 2,
+            "nature": {
+                "name": "timid",
+                "url": "http://pokeapi.co/api/v2/nature/5/"
+            }
+        }],
+        "decrease": [{
+            "max_change": -1,
+            "nature": {
+                "name": "hardy",
+                "url": "http://pokeapi.co/api/v2/nature/1/"
+            }
+        }]
+    },
+    "names": [{
+        "name": "Speed",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-38">Response models</h6>
+<h4 id="pokeathlonstat">PokeathlonStat</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokéathlon stat resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokéathlon stat resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this Pokéathlon stat listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>affecting_natures</td>
+<td>A detail of natures which affect this Pokéathlon stat positively or negatively</td>
+<td><a href="#naturepokeathlonstataffectsets">NaturePokeathlonStatAffectSets</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="naturepokeathlonstataffectsets">NaturePokeathlonStatAffectSets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>increase</td>
+<td>A list of natures and how they change the referenced Pokéathlon stat</td>
+<td>list <a href="#naturepokeathlonstataffect">NaturePokeathlonStatAffect</a></td>
+</tr>
+<tr>
+<td>decrease</td>
+<td>A list of natures and how they change the referenced Pokéathlon stat</td>
+<td>list <a href="#naturepokeathlonstataffect">NaturePokeathlonStatAffect</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="naturepokeathlonstataffect">NaturePokeathlonStatAffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max_change</td>
+<td>The maximum amount of change to the referenced Pokéathlon stat</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>nature</td>
+<td>The nature causing the change</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#natures">Nature</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokemon">Pokemon</h2>
+<p>Pokémon are the creatures that inhabit the world of the Pokémon games. They can be caught using Pokéballs and trained by battling with other Pokémon. See <a href="http://bulbapedia.bulbagarden.net/wiki/Pokémon_(species)">Bulbapedia</a> for greater detail.</p>
+<h3 id="get-apiv2pokemonid-or-name">GET api/v2/pokemon/{id or name}</h3>
+<h6 id="example-response-39">Example response</h6>
+<pre><code>{
+    "id": 12,
+    "name": "butterfree",
+    "base_experience": 178,
+    "height": 11,
+    "is_default": true,
+    "order": 16,
+    "weight": 320,
+    "abilities": [{
+        "is_hidden": true,
+        "slot": 3,
+        "ability": {
+            "name": "tinted-lens",
+            "url": "http://pokeapi.co/api/v2/ability/110/"
+        }
+    }],
+    "forms": [{
+        "name": "butterfree",
+        "url": "http://pokeapi.co/api/v2/pokemon-form/12/"
+    }],
+    "game_indices": [{
+        "game_index": 12,
+        "version": {
+            "name": "white-2",
+            "url": "http://pokeapi.co/api/v2/version/22/"
+        }
+    }],
+    "held_items": [{
+        "item": {
+            "name": "silver-powder",
+            "url": "http://pokeapi.co/api/v2/item/199/"
+        },
+        "version_details": [{
+            "rarity": 5,
+            "version": {
+                "name": "y",
+                "url": "http://pokeapi.co/api/v2/version/24/"
+            }
+        }]
+    }],
+    "location_area_encounters": [{
+        "location_area": {
+            "name": "kanto-route-2-south-towards-viridian-city",
+            "url": "http://pokeapi.co/api/v2/location-area/296/"
+        },
+        "version_details": [{
+            "max_chance": 10,
+            "encounter_details": [{
+                "min_level": 7,
+                "max_level": 7,
+                "condition_values": [{
+                    "name": "time-morning",
+                    "url": "http://pokeapi.co/api/v2/encounter-condition-value/3/"
+                }],
+                "chance": 5,
+                "method": {
+                    "name": "walk",
+                    "url": "http://pokeapi.co/api/v2/encounter-method/1/"
+                }
+            }],
+            "version": {
+                "name": "heartgold",
+                "url": "http://pokeapi.co/api/v2/version/15/"
+            }
+        }]
+    }],
+    "moves": [{
+        "move": {
+            "name": "flash",
+            "url": "http://pokeapi.co/api/v2/move/148/"
+        },
+        "version_group_details": [{
+            "level_learned_at": 0,
+            "version_group": {
+                "name": "x-y",
+                "url": "http://pokeapi.co/api/v2/version-group/15/"
+            },
+            "move_learn_method": {
+                "name": "machine",
+                "url": "http://pokeapi.co/api/v2/move-learn-method/4/"
+            }
+        }]
+    }],
+    "species": {
+        "name": "butterfree",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/12/"
+    },
+    "sprites": {
+        "back_female": "http://localhost:8000/media/sprites/pokemon/back/female/12.png",
+        "back_shiny_female": "http://localhost:8000/media/sprites/pokemon/back/shiny/female/12.png",
+        "back_default": "http://localhost:8000/media/sprites/pokemon/back/12.png",
+        "front_female": "http://localhost:8000/media/sprites/pokemon/female/12.png",
+        "front_shiny_female": "http://localhost:8000/media/sprites/pokemon/shiny/female/12.png",
+        "back_shiny": "http://localhost:8000/media/sprites/pokemon/back/shiny/12.png",
+        "front_default": "http://localhost:8000/media/sprites/pokemon/12.png",
+        "front_shiny": "http://localhost:8000/media/sprites/pokemon/shiny/12.png"
+    },
+    "stats": [{
+        "base_stat": 70,
+        "effort": 0,
+        "stat": {
+            "name": "speed",
+            "url": "http://pokeapi.co/api/v2/stat/6/"
+        }
+    }],
+    "types": [{
+        "slot": 2,
+        "type": {
+            "name": "flying",
+            "url": "http://pokeapi.co/api/v2/type/3/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-39">Response models</h6>
+<h4 id="pokemon-2">Pokemon</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokémon resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokémon resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>base_experience</td>
+<td>The base experience gained for defeating this Pokémon</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>height</td>
+<td>The height of this Pokémon</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>is_default</td>
+<td>Set for exactly one Pokémon used as the default for each species</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>order</td>
+<td>Order for sorting. Almost national order, except families are grouped together.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>weight</td>
+<td>The weight of this Pokémon</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>abilities</td>
+<td>A list of abilities this Pokémon could potentially have</td>
+<td>list <a href="#pokemonability">PokemonAbility</a></td>
+</tr>
+<tr>
+<td>forms</td>
+<td>A list of forms this Pokémon can take on</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-forms">PokemonForm</a>)</td>
+</tr>
+<tr>
+<td>game_indices</td>
+<td>A list of game indices relevent to Pokémon item by generation</td>
+<td>list <a href="#versiongameindex">VersionGameIndex</a></td>
+</tr>
+<tr>
+<td>held_items</td>
+<td>A list of items this Pokémon may be holding when encountered</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#items">Item</a>)</td>
+</tr>
+<tr>
+<td>location_area_encounters</td>
+<td>A list of location areas as well as encounter details pertaining to specific versions</td>
+<td>list <a href="#locationareaencounter">LocationAreaEncounter</a></td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves along with learn methods and level details pertaining to specific version groups</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+<tr>
+<td>sprites</td>
+<td>A set of sprites used to depict this Pokémon in the game</td>
+<td><a href="#pokemonsprites">PokemonSprites</a></td>
+</tr>
+<tr>
+<td>species</td>
+<td>The species this Pokémon belongs to</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+<tr>
+<td>stats</td>
+<td>A list of base stat values for this Pokémon</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#stats">Stat</a>)</td>
+</tr>
+<tr>
+<td>types</td>
+<td>A list of details showing types this Pokémon has</td>
+<td>list <a href="#pokemontype">PokemonType</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonability">PokemonAbility</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>is_hidden</td>
+<td>Whether or not this is a hidden ability</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>slot</td>
+<td>The slot this ability occupies in this Pokémon species</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>ability</td>
+<td>The ability the Pokémon may have</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#abilities">Ability</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemontype">PokemonType</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slot</td>
+<td>The order the Pokémon's types are listed in</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>type</td>
+<td>The type the referenced Pokémon has</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonsprites">PokemonSprites</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front_default</td>
+<td>The default depiction of this Pokémon from the front in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>front_shiny</td>
+<td>The shiny depiction of this Pokémon from the front in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>front_female</td>
+<td>The female depiction of this Pokémon from the front in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>front_shiny_female</td>
+<td>The shiny female depiction of this Pokémon from the front in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>back_default</td>
+<td>The default depiction of this Pokémon from the back in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>back_shiny</td>
+<td>The shiny depiction of this Pokémon from the back in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>back_female</td>
+<td>The female depiction of this Pokémon from the back in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>back_shiny_female</td>
+<td>The shiny female depiction of this Pokémon from the back in battle</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<h4 id="locationareaencounter">LocationAreaEncounter</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>location_area</td>
+<td>The location area the referenced Pokémon can be encountered in</td>
+<td><a href="#apiresource">APIResource</a> (<a href="#location-areas">LocationArea</a>)</td>
+</tr>
+<tr>
+<td>version_details</td>
+<td>A list of versions and encounters with the referenced Pokémon that might happen</td>
+<td>list <a href="#versionencounterdetail">VersionEncounterDetail</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokemon-colors">Pokemon Colors</h2>
+<p>Colors used for sorting Pokémon in a Pokédex. The color listed in the Pokédex is usually the color most apparent or covering each Pokémon's body. No orange category exists; Pokémon that are primarily orange are listed as red or brown.</p>
+<h3 id="get-apiv2pokemon-colorid-or-name">GET api/v2/pokemon-color/{id or name}</h3>
+<h6 id="example-response-40">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "black",
+    "names": [{
+        "name": "é»’ã„",
+        "language": {
+            "name": "ja",
+            "url": "http://pokeapi.co/api/v2/language/1/"
+        }
+    }],
+    "pokemon_species": [{
+        "name": "snorlax",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/143/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-40">Response models</h6>
+<h4 id="pokemoncolor">PokemonColor</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokémon color resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokémon color resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this Pokémon color listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of the Pokémon species that have this color</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokemon-forms">Pokemon Forms</h2>
+<p>Some Pokémon have the ability to take on different forms. At times, these differences are purely cosmetic and have no bearing on the difference in the Pokémon's stats from another; however, several Pokémon differ in stats (other than HP), type, and Ability depending on their form.</p>
+<h3 id="get-apiv2pokemon-formid-or-name">GET api/v2/pokemon-form/{id or name}</h3>
+<h6 id="example-response-41">example response</h6>
+<pre><code>{
+    "id": 413,
+    "name": "wormadam-plant",
+    "order": 503,
+    "form_order": 1,
+    "is_default": true,
+    "is_battle_only": false,
+    "is_mega": false,
+    "form_name": "plant",
+    "pokemon": {
+        "name": "wormadam-plant",
+        "url": "http://pokeapi.co/api/v2/pokemon/413/"
+    },
+    "sprites": {
+        "back_default": "http://localhost:8000/media/sprites/pokemon/back/413.png",
+        "back_shiny": "http://localhost:8000/media/sprites/pokemon/back/shiny/413.png",
+        "front_default": "http://localhost:8000/media/sprites/pokemon/413.png",
+        "front_shiny": "http://localhost:8000/media/sprites/pokemon/shiny/413.png"
+    },
+    "version_group": {
+        "name": "diamond-pearl",
+        "url": "http://pokeapi.co/api/v2/version-group/8/"
+    }
+}
+</code></pre>
+<h6 id="response-models-41">response models</h6>
+<h4 id="pokemonform">PokemonForm</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokémon form resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokémon form resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>order</td>
+<td>The order in which forms should be sorted within all forms. Multiple forms may have equal order, in which case they should fall back on sorting by name.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>form_order</td>
+<td>The order in which forms should be sorted within a species' forms</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>is_default</td>
+<td>True for exactly one form used as the default for each Pokémon</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>is_battle_only</td>
+<td>Whether or not this form can only happen during battle</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>is_mega</td>
+<td>Whether or not this form requires mega evolution</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>form_name</td>
+<td>The name of this form</td>
+<td>string</td>
+</tr>
+<tr>
+<td>pokemon</td>
+<td>The Pokémon that can take on this form</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon">Pokemon</a>)</td>
+</tr>
+<tr>
+<td>sprites</td>
+<td>A set of sprites used to depict this Pokémon form in the game</td>
+<td><a href="#pokemonformsprites">PokemonFormSprites</a></td>
+</tr>
+<tr>
+<td>version_group</td>
+<td>The version group this Pokémon form was introduced in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonformsprites">PokemonFormSprites</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>front_default</td>
+<td>The default depiction of this Pokémon form from the front in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>front_shiny</td>
+<td>The shiny depiction of this Pokémon form from the front in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>back_default</td>
+<td>The default depiction of this Pokémon form from the back in battle</td>
+<td>string</td>
+</tr>
+<tr>
+<td>back_shiny</td>
+<td>The shiny depiction of this Pokémon form from the back in battle</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokemon-habitats">Pokemon Habitats</h2>
+<p>Habitats are generally different terrain Pokémon can be found in but can also be areas designated for rare or legendary Pokémon.</p>
+<h3 id="get-apiv2pokemon-habitatid-or-name">GET api/v2/pokemon-habitat/{id or name}</h3>
+<h6 id="example-response-42">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "cave",
+    "names": [
+        {
+            "name": "grottes",
+            "language": {
+                "name": "fr",
+                "url": "http://pokeapi.co/api/v2/language/5/"
+            }
+        }
+    ],
+    "pokemon_species": [
+        {
+            "name": "zubat",
+            "url": "http://pokeapi.co/api/v2/pokemon-species/41/"
+        }
+    ]
+}
+</code></pre>
+<h6 id="response-models-42">Response models</h6>
+<h4 id="pokemonhabitat">PokemonHabitat</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokémon habitat resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokémon habitat resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this Pokémon habitat listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of the Pokémon species that can be found in this habitat</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokemon-shapes">Pokemon Shapes</h2>
+<p>Shapes used for sorting Pokémon in a Pokédex. </p>
+<h3 id="get-apiv2pokemon-shapeid-or-name">GET api/v2/pokemon-shape/{id or name}</h3>
+<h6 id="example-response-43">Example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "ball",
+    "awesome_names": [
+        {
+            "awesome_name": "Pomaceous",
+            "language": {
+                "name": "en",
+                "url": "http://pokeapi.co/api/v2/language/9/"
+            }
+        }
+    ],
+    "names": [
+        {
+            "name": "Ball",
+            "language": {
+                "name": "en",
+                "url": "http://pokeapi.co/api/v2/language/9/"
+            }
+        }
+    ],
+    "pokemon_species": [
+        {
+            "name": "shellder",
+            "url": "http://pokeapi.co/api/v2/pokemon-species/90/"
+        }
+    ]
+}
+</code></pre>
+<h6 id="response-models-43">Response models</h6>
+<h4 id="pokemonshape">PokemonShape</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokémon shape resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokémon shape resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>awesome_names</td>
+<td>The "scientific" name of this Pokémon shape listed in different languages</td>
+<td>list <a href="#awesomename">AwesomeName</a></td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this Pokémon shape listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon_species</td>
+<td>A list of the Pokémon species that have this shape</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="awesomename">AwesomeName</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>awesome_name</td>
+<td>The localized "scientific" name for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this "scientific" name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pokemon-species">Pokemon Species</h2>
+<p>A Pokémon Species forms the basis for at least one Pokémon. Attributes of a Pokémon species are shared across all varieties of Pokémon within the species. A good example is Wormadam; Wormadam is the species which can be found in three different varieties, Wormadam-Trash, Wormadam-Sandy and Wormadam-Plant. </p>
+<h3 id="get-apiv2pokemon-speciesid-or-name">GET api/v2/pokemon-species/{id or name}</h3>
+<h6 id="example-response-44">Example response</h6>
+<pre><code>{
+    "id": 413,
+    "name": "wormadam",
+    "order": 441,
+    "gender_rate": 8,
+    "capture_rate": 45,
+    "base_happiness": 70,
+    "is_baby": false,
+    "hatch_counter": 15,
+    "has_gender_differences": false,
+    "forms_switchable": false,
+    "growth_rate": {
+        "name": "medium",
+        "url": "http://pokeapi.co/api/v2/growth-rate/2/"
+    },
+    "pokedex_numbers": [{
+        "entry_number": 45,
+        "pokedex": {
+            "name": "kalos-central",
+            "url": "http://pokeapi.co/api/v2/pokedex/12/"
+        }
+    }],
+    "egg_groups": [{
+        "name": "bug",
+        "url": "http://pokeapi.co/api/v2/egg-group/3/"
+    }],
+    "color": {
+        "name": "gray",
+        "url": "http://pokeapi.co/api/v2/pokemon-color/4/"
+    },
+    "shape": {
+        "name": "squiggle",
+        "url": "http://pokeapi.co/api/v2/pokemon-shape/2/"
+    },
+    "evolves_from_species": {
+        "name": "burmy",
+        "url": "http://pokeapi.co/api/v2/pokemon-species/412/"
+    },
+    "evolution_chain": {
+        "url": "http://pokeapi.co/api/v2/evolution-chain/213/"
+    },
+    "habitat": null,
+    "generation": {
+        "name": "generation-iv",
+        "url": "http://pokeapi.co/api/v2/generation/4/"
+    },
+    "names": [{
+        "name": "Wormadam",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "flavor_text_entries": [
+    {
+        "flavor_text": "When the bulb on\nits back grows\nlarge, it appears\fto lose the\nability to stand\non its hind legs.",
+        "language": {
+            "name": "en",
+            "url": "http://localhost:8000/api/v2/language/9/"
+        },
+        "version": {
+            "name": "red",
+            "url": "http://localhost:8000/api/v2/version/1/"
+        }
+    }],
+    "form_descriptions": [{
+        "description": "Forms have different stats and movepools.  During evolution, Burmy's current cloak becomes Wormadam's form, and can no longer be changed.",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "genera": [{
+        "genus": "Bagworm",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }],
+    "varieties": [{
+        "is_default": true,
+        "pokemon": {
+            "name": "wormadam-plant",
+            "url": "http://pokeapi.co/api/v2/pokemon/413/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-44">Response models</h6>
+<h4 id="pokemonspecies">PokemonSpecies</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this Pokémon species resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this Pokémon species resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>order</td>
+<td>The order in which species should be sorted. Based on National Dex order, except families are grouped together and sorted by stage.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>gender_rate</td>
+<td>The chance of this Pokémon being female, in eighths; or -1 for genderless</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>capture_rate</td>
+<td>The base capture rate; up to 255. The higher the number, the easier the catch.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>base_happiness</td>
+<td>The happiness when caught by a normal Pokéball; up to 255. The higher the number, the happier the Pokémon.</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>is_baby</td>
+<td>Whether or not this is a baby Pokémon</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>hatch_counter</td>
+<td>Initial hatch counter: one must walk 255 × (hatch_counter + 1) steps before this Pokémon's egg hatches, unless utilizing bonuses like Flame Body's</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>has_gender_differences</td>
+<td>Whether or not this Pokémon can have different genders</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>forms_switchable</td>
+<td>Whether or not this Pokémon has multiple forms and can switch between them</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>growth_rate</td>
+<td>The rate at which this Pokémon species gains levels</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#growth-rates">GrowthRate</a>)</td>
+</tr>
+<tr>
+<td>pokedex_numbers</td>
+<td>A list of pokedexes and the indexes reserved within them for this Pokémon species</td>
+<td>list <a href="#pokemonspeciesdexentry">PokemonSpeciesDexEntry</a></td>
+</tr>
+<tr>
+<td>egg_groups</td>
+<td>A list of egg groups this Pokémon species is a member of</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#egg-groups">EggGroup</a>)</td>
+</tr>
+<tr>
+<td>color</td>
+<td>The color of this Pokémon for gimmicky Pokédex search</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-colors">PokemonColor</a>)</td>
+</tr>
+<tr>
+<td>shape</td>
+<td>The shape of this Pokémon for gimmicky Pokédex search</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-shapes">PokemonShape</a>)</td>
+</tr>
+<tr>
+<td>evolves_from_species</td>
+<td>The Pokémon species that evolves into this pokemon_species</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-species">PokemonSpecies</a>)</td>
+</tr>
+<tr>
+<td>evolution_chain</td>
+<td>The evolution chain this Pokémon species is a member of</td>
+<td><a href="#apiresource">APIResource</a> (<a href="#evolution-chains">EvolutionChain</a>)</td>
+</tr>
+<tr>
+<td>habitat</td>
+<td>The habitat this Pokémon species can be encountered in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon-habitats">PokemonHabitat</a>)</td>
+</tr>
+<tr>
+<td>generation</td>
+<td>The generation this Pokémon species was introduced in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this Pokémon species listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pal_park_encounters</td>
+<td>A list of encounters that can be had with this Pokémon species in pal park</td>
+<td>list <a href="#palparkencounterarea">PalParkEncounterArea</a></td>
+</tr>
+<tr>
+<td>flavor_text_entries</td>
+<td>The flavor text of this flavor text listed in different languages</td>
+<td>list <a href="#pokemonspeciesflavortext">PokemonSpeciesFlavorText</a></td>
+</tr>
+<tr>
+<td>form_descriptions</td>
+<td>Descriptions of different forms Pokémon take on within the Pokémon species</td>
+<td>list <a href="#description">Description</a></td>
+</tr>
+<tr>
+<td>genera</td>
+<td>The genus of this Pokémon species listed in multiple languages</td>
+<td><a href="#genus">Genus</a></td>
+</tr>
+<tr>
+<td>varieties</td>
+<td>A list of the Pokémon that exist within this Pokémon species</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon">Pokemon</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="genus">Genus</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>genus</td>
+<td>The localized genus for the referenced pokemon species</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this genus is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonspeciesdexentry">PokemonSpeciesDexEntry</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>entry_number</td>
+<td>The index number within the Pokédex</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The Pokédex the referenced Pokémon species can be found in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokedexes">Pokedex</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="palparkencounterarea">PalParkEncounterArea</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base_score</td>
+<td>The base score given to the player when the referenced Pokémon is caught during a pal park run</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>rate</td>
+<td>The base rate for encountering the referenced Pokémon in this pal park area</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>area</td>
+<td>The pal park area where this encounter happens</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pal-park-areas">PalParkArea</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="pokemonspeciesflavortext">PokemonSpeciesFlavorText</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flavor_text</td>
+<td>The localized flavor text for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+<tr>
+<td>version</td>
+<td>The version this flavor text entry is used in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#versions">Version</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="stats">Stats</h2>
+<p>Stats determine certain aspects of battles. Each Pokémon has a value for each stat which grows as they gain levels and can be altered momentarily by effects in battles.</p>
+<h3 id="get-apiv2statid-or-name">GET api/v2/stat/{id or name}</h3>
+<h6 id="example-response-45">Example response</h6>
+<pre><code>{
+    "id": 2,
+    "name": "attack",
+    "game_index": 2,
+    "is_battle_only": false,
+    "affecting_moves": {
+        "increase": [{
+            "change": 2,
+            "move": {
+                "name": "swords-dance",
+                "url": "http://pokeapi.co/api/v2/move/14/"
+            }
+        }],
+        "decrease": [{
+            "change": -1,
+            "move": {
+                "name": "growl",
+                "url": "http://pokeapi.co/api/v2/move/45/"
+            }
+        }]
+    },
+    "affecting_natures": {
+        "increase": [{
+            "name": "lonely",
+            "url": "http://pokeapi.co/api/v2/nature/6/"
+        }],
+        "decrease": [{
+            "name": "bold",
+            "url": "http://pokeapi.co/api/v2/nature/2/"
+        }]
+    },
+    "characteristics": [{
+        "url": "http://pokeapi.co/api/v2/characteristic/2/"
+    }],
+    "move_damage_class": {
+        "name": "physical",
+        "url": "http://pokeapi.co/api/v2/move-damage-class/2/"
+    },
+    "names": [{
+        "name": "ã“ã†ã’ã",
+        "language": {
+            "name": "ja",
+            "url": "http://pokeapi.co/api/v2/language/1/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-45">Response models</h6>
+<h4 id="stat">Stat</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this stat resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this stat resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>game_index</td>
+<td>ID the games use for this stat</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>is_battle_only</td>
+<td>Whether this stat only exists within a battle</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>affecting_moves</td>
+<td>A detail of moves which affect this stat positively or negatively</td>
+<td><a href="#movestataffectsets">MoveStatAffectSets</a></td>
+</tr>
+<tr>
+<td>affecting_natures</td>
+<td>A detail of natures which affect this stat positively or negatively</td>
+<td><a href="#naturestataffectsets">NatureStatAffectSets</a></td>
+</tr>
+<tr>
+<td>characteristics</td>
+<td>A list of characteristics that are set on a Pokémon when its highest base stat is this stat</td>
+<td>list <a href="#apiresource">APIResource</a> (<a href="#characteristics">Characteristic</a>)</td>
+</tr>
+<tr>
+<td>move_damage_class</td>
+<td>The class of damage this stat is directly related to</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-damage-classes">MoveDamageClass</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this region listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="movestataffectsets">MoveStatAffectSets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>increase</td>
+<td>A list of moves and how they change the referenced stat</td>
+<td>list <a href="#movestataffect">MoveStatAffect</a></td>
+</tr>
+<tr>
+<td>decrease</td>
+<td>A list of moves and how they change the referenced stat</td>
+<td>list <a href="#movestataffect">MoveStatAffect</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="movestataffect">MoveStatAffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max_change</td>
+<td>The maximum amount of change to the referenced stat</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>move</td>
+<td>The move causing the change</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="naturestataffectsets">NatureStatAffectSets</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>increase</td>
+<td>A list of natures and how they change the referenced stat</td>
+<td>list <a href="#naturestataffect">NatureStatAffect</a></td>
+</tr>
+<tr>
+<td>decrease</td>
+<td>A list of nature sand how they change the referenced stat</td>
+<td>list <a href="#naturestataffect">NatureStatAffect</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="naturestataffect">NatureStatAffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>max_change</td>
+<td>The maximum amount of change to the referenced stat</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>nature</td>
+<td>The nature causing the change</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#natures">Nature</a>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="types">Types</h2>
+<p>Types are properties for Pokémon and their moves. Each type has three properties: which types of Pokémon it is super effective against, which types of Pokémon it is not very effective against, and which types of Pokémon it is completely ineffective against.</p>
+<h3 id="get-apiv2typeid-or-name">GET api/v2/type/{id or name}</h3>
+<h6 id="example-response-46">Example response</h6>
+<pre><code>{
+    "id": 5,
+    "name": "ground",
+    "damage_relations": {
+        "no_damage_to": [{
+            "name": "flying",
+            "url": "http://pokeapi.co/api/v2/type/3/"
+        }],
+        "half_damage_to": [{
+            "name": "bug",
+            "url": "http://pokeapi.co/api/v2/type/7/"
+        }],
+        "double_damage_to": [{
+            "name": "poison",
+            "url": "http://pokeapi.co/api/v2/type/4/"
+        }],
+        "no_damage_from": [{
+            "name": "electric",
+            "url": "http://pokeapi.co/api/v2/type/13/"
+        }],
+        "half_damage_from": [{
+            "name": "poison",
+            "url": "http://pokeapi.co/api/v2/type/4/"
+        }],
+        "double_damage_from": [{
+            "name": "water",
+            "url": "http://pokeapi.co/api/v2/type/11/"
+        }]
+    },
+    "game_indices": [{
+        "game_index": 4,
+        "generation": {
+            "name": "generation-i",
+            "url": "http://pokeapi.co/api/v2/generation/1/"
+        }
+    }],
+    "generation": {
+        "name": "generation-i",
+        "url": "http://pokeapi.co/api/v2/generation/1/"
+    },
+    "move_damage_class": {
+        "name": "physical",
+        "url": "http://pokeapi.co/api/v2/move-damage-class/2/"
+    },
+    "names": [{
+        "name": "ã˜ã‚ã‚“",
+        "language": {
+            "name": "ja",
+            "url": "http://pokeapi.co/api/v2/language/1/"
+        }
+    }],
+    "pokemon": [{
+        "slot": 1,
+        "pokemon": {
+            "name": "sandshrew",
+            "url": "http://pokeapi.co/api/v2/pokemon/27/"
+        }
+    }],
+    "moves": [{
+        "name": "sand-attack",
+        "url": "http://pokeapi.co/api/v2/move/28/"
+    }]
+}
+</code></pre>
+<h6 id="response-models-46">Response models</h6>
+<h4 id="type">Type</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this type resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this type resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>damage_relations</td>
+<td>A detail of how effective this type is toward others and vice versa</td>
+<td><a href="#typerelations">TypeRelations</a></td>
+</tr>
+<tr>
+<td>game_indices</td>
+<td>A list of game indices relevent to this item by generation</td>
+<td>list <a href="#generationgameindex">GenerationGameIndex</a></td>
+</tr>
+<tr>
+<td>generation</td>
+<td>The generation this type was introduced in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+<tr>
+<td>move_damage_class</td>
+<td>The class of damage inflicted by this type</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#move-damage-classes">MoveDamageClass</a>)</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this type listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+<tr>
+<td>pokemon</td>
+<td>A list of details of Pokémon that have this type</td>
+<td><a href="#typepokemon">TypePokemon</a></td>
+</tr>
+<tr>
+<td>moves</td>
+<td>A list of moves that have this type</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#moves">Move</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="typepokemon">TypePokemon</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>slot</td>
+<td>The order the Pokémon's types are listed in</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>pokemon</td>
+<td>The Pokémon that has the referenced type</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#pokemon">Pokemon</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="typerelations">TypeRelations</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>no_damage_to</td>
+<td>A list of types this type has no effect on</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>half_damage_to</td>
+<td>A list of types this type is not very effect against</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>double_damage_to</td>
+<td>A list of types this type is very effect against</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>no_damage_from</td>
+<td>A list of types that have no effect on this type</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>half_damage_from</td>
+<td>A list of types that are not very effective against this type</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+<tr>
+<td>double_damage_from</td>
+<td>A list of types that are very effective against this type</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#types">Type</a>)</td>
+</tr>
+</tbody>
+</table>
+<h1 id="utility-section">Utility</h1>
+<h2 id="languages">Languages</h2>
+<p>Languages for translations of API resource information.</p>
+<h3 id="get-apiv2languageid-or-name">GET api/v2/language/{id or name}</h3>
+<h6 id="example-response-47">example response</h6>
+<pre><code>{
+    "id": 1,
+    "name": "ja",
+    "official": true,
+    "iso639": "ja",
+    "iso3166": "jp",
+    "names": [{
+        "name": "Japanese",
+        "language": {
+            "name": "en",
+            "url": "http://pokeapi.co/api/v2/language/9/"
+        }
+    }]
+}
+</code></pre>
+<h6 id="response-models-47">response models</h6>
+<h4 id="language">Language</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>The identifier for this language resource</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>name</td>
+<td>The name for this language resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>official</td>
+<td>Whether or not the games are published in this language</td>
+<td>boolean</td>
+</tr>
+<tr>
+<td>iso639</td>
+<td>The two-letter code of the country where this language is spoken. Note that it is not unique.</td>
+<td>string</td>
+</tr>
+<tr>
+<td>iso3166</td>
+<td>The two-letter code of the language. Note that it is not unique.</td>
+<td>string</td>
+</tr>
+<tr>
+<td>names</td>
+<td>The name of this language listed in different languages</td>
+<td>list <a href="#resourcename">Name</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="common-models">Common Models</h2>
+<h4 id="apiresource">APIResource</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>The URL of the referenced resource</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<h4 id="description">Description</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>description</td>
+<td>The localized description for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="effect">Effect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>effect</td>
+<td>The localized effect text for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this effect is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#language">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="encounter">Encounter</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>min_level</td>
+<td>The lowest level the Pokémon could be encountered at</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>max_level</td>
+<td>The highest level the Pokémon could be encountered at</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>condition_values</td>
+<td>A list of condition values that must be in effect for this encounter to occur</td>
+<td>list <a href="#namedapiresource">NamedAPIResource</a> (<a href="#encounter-condition-values">EncounterConditionValue</a>)</td>
+</tr>
+<tr>
+<td>chance</td>
+<td>percent chance that this encounter will occur</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>method</td>
+<td>The method by which this encounter happens</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#encounter-methods">EncounterMethod</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="flavortext">FlavorText</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>flavor_text</td>
+<td>The localized flavor text for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="generationgameindex">GenerationGameIndex</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>game_index</td>
+<td>The internal id of an API resource within game data</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>generation</td>
+<td>The generation relevent to this game index</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#generations">Generation</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="a-idresourcenameaname"><a id="resourcename"></a>Name</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>The localized name for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="namedapiresource">NamedAPIResource</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>The name of the referenced resource</td>
+<td>string</td>
+</tr>
+<tr>
+<td>url</td>
+<td>The URL of the referenced resource</td>
+<td>string</td>
+</tr>
+</tbody>
+</table>
+<h4 id="verboseeffect">VerboseEffect</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>effect</td>
+<td>The localized effect text for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>short_effect</td>
+<td>The localized effect text in brief</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this effect is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="versionencounterdetail">VersionEncounterDetail</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>version</td>
+<td>The game version this encounter happens in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#versions">Version</a>)</td>
+</tr>
+<tr>
+<td>max_chance</td>
+<td>The total percentage of all encounter potential</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>encounter_details</td>
+<td>A list of encounters and their specifics</td>
+<td>list <a href="#encounters">Encounter</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="versiongameindex">VersionGameIndex</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>game_index</td>
+<td>The internal id of an API resource within game data</td>
+<td>integer</td>
+</tr>
+<tr>
+<td>version</td>
+<td>The version relevent to this game index</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#versions">Version</a>)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="versiongroupflavortext">VersionGroupFlavorText</h4>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Description</th>
+<th>Data Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>text</td>
+<td>The localized name for an API resource in a specific language</td>
+<td>string</td>
+</tr>
+<tr>
+<td>language</td>
+<td>The language this name is in</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#languages">Language</a>)</td>
+</tr>
+<tr>
+<td>version_group</td>
+<td>The version group which uses this flavor text</td>
+<td><a href="#namedapiresource">NamedAPIResource</a> (<a href="#version-groups">VersionGroup</a>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</section>
+<script>
+
+        var sticky = $('.nav-group');
+        var docSelect = $('.doc-select');
+        var offset = sticky.offset();
+        var sideNav = $('.side-nav');
+        var navParents = $('.doc-select').children('ul').children('li');
+        var doc = $(document);
+        var win = $(window);
+
+        function navOps () {
+
+            //check sticky
+            if (doc.scrollTop() >= (offset.top - 65)) {
+
+                console.log(window.innerHeight - offset.top);
+
+                sticky.addClass('stick');
+                sticky.css({ 
+                    width: sideNav.width() + 'px',
+                });
+
+            } else {
+
+                sticky.removeClass('stick');
+                sticky.css({ width: '' });
+            }
+
+            navParents.removeClass('active');
+            var parent;
+            var target;
+            var activeParent = $(navParents[0]);
+            var scrollTop = win.scrollTop();
+
+            for (var i = 0; i < navParents.length; i++) {
+
+                parent = $(navParents[i]);
+
+                target = $(parent.find('a').attr('href'));
+
+                if (scrollTop >= target.offset().top) {
+                    activeParent = parent;
+                } else {
+                    break;
+                }
+            }
+
+            activeParent.addClass('active');
+
+            var children = activeParent.find('li');
+            var child;
+            var activeChild;
+
+            children.removeClass('active');
+
+            for (i = 0; i < children.length; i++) {
+
+                child = $(children[i]);
+                target = $(child.find('a').attr('href'));
+
+                if (scrollTop >= target.offset().top) {
+                    activeChild = child;
+                } else {
+                    break;
+                }
+            }
+
+            if (activeChild) {
+
+                activeChild.addClass('active');
+            }
+        }
+
+        doc.scroll(function () {
+
+            navOps();
+        });
+
+        win.resize(function () {
+
+            navOps();
+        });
+
+        navOps();
+
+    </script>
+</body>
+<hr class="">
+<div class="footer">
+<p><a href="http://phalt.co?ref=pokeapi" target="_blank">&copy; Paul Hallett <script type="text/javascript">
+  document.write(new Date().getFullYear());
+</script></a>
+<span class="pull-right">
+<a href="https://twitter.com/phalt_" class="twitter-follow-button" data-show-count="false" data-show-screen-name="false" data-dnt="true">Follow me on twitter</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<iframe src="http://ghbtns.com/github-btn.html?user=phalt&type=follow" allowtransparency="false" frameborder="0" scrolling="0" width="132" height="20"></iframe></span></p>
+</div>
+</div>
+ 
+<script type="text/javascript">
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53299289-1', 'auto');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+PODS:
+  - Alamofire (3.3.1)
+  - JSONJoy-Swift (2.0.0)
+  - ReachabilitySwift (2.3.3)
+  - SQLite.swift (0.10.1)
+  - TSMarkdownParser (2.0.3)
+
+DEPENDENCIES:
+  - Alamofire (~> 3.3)
+  - JSONJoy-Swift (~> 2.0.0)
+  - ReachabilitySwift (~> 2.3.3)
+  - SQLite.swift (~> 0.10.1)
+  - TSMarkdownParser
+
+SPEC CHECKSUMS:
+  Alamofire: 369bc67b6f5ac33ded3648d7bd21c5bfb91c2ecc
+  JSONJoy-Swift: 9dc31dfb9e551c3ae7781513a86e369598102653
+  ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
+  SQLite.swift: 6a6e4b034efc317ce4e203b6af2d3024fee2b570
+  TSMarkdownParser: 03ce0d0025bfaa9852963e0f4f40c52ab76fcce1
+
+COCOAPODS: 0.39.0

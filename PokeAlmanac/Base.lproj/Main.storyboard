@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="9wP-Zc-NPc">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="NotoEmoji-Regular.ttf">
+            <string>NotoEmoji</string>
+            <string>NotoEmoji</string>
+        </mutableArray>
+        <mutableArray key="Roboto-Light.ttf">
+            <string>Roboto-Light</string>
+        </mutableArray>
+        <mutableArray key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+            <string>Roboto-Regular</string>
+        </mutableArray>
+    </customFonts>
+    <scenes>
+        <!--Backpack-->
+        <scene sceneID="IRP-k7-Efq">
+            <objects>
+                <navigationController id="WO5-r2-abb" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Backpack" image="IconBackpack" selectedImage="IconBackpackFilled" id="MYy-FE-K3p"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ylk-wc-aGs">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="LZb-jP-WZi" kind="relationship" relationship="rootViewController" id="7mh-Tq-Wyj"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="NZ5-iB-OeZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1205" y="814"/>
+        </scene>
+        <!--MapViewController-->
+        <scene sceneID="C0L-O9-2pZ">
+            <objects>
+                <viewController title="Map" id="9e0-cW-k9b" userLabel="MapViewController" customClass="MapViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Lwy-u1-SBu"/>
+                        <viewControllerLayoutGuide type="bottom" id="wYO-6l-1KA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="unv-ii-0sK">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rAQ-6v-gZi">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Map" id="X6E-bQ-XHh">
+                                        <rightBarButtonItems>
+                                            <barButtonItem systemItem="action" id="uCf-tY-MQR">
+                                                <connections>
+                                                    <action selector="showActionSheet:" destination="9e0-cW-k9b" id="BMv-4z-azE"/>
+                                                </connections>
+                                            </barButtonItem>
+                                            <barButtonItem image="IconMapTreasure" id="Mnu-RQ-fL4">
+                                                <connections>
+                                                    <action selector="scanMap:" destination="9e0-cW-k9b" id="qyI-k4-VQ7"/>
+                                                </connections>
+                                            </barButtonItem>
+                                        </rightBarButtonItems>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="A6U-9I-64s">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="A6U-9I-64s" secondAttribute="trailing" constant="-20" id="2he-xj-hlx"/>
+                            <constraint firstItem="A6U-9I-64s" firstAttribute="top" secondItem="rAQ-6v-gZi" secondAttribute="bottom" id="ATK-3h-DEU"/>
+                            <constraint firstItem="A6U-9I-64s" firstAttribute="leading" secondItem="unv-ii-0sK" secondAttribute="leadingMargin" constant="-20" id="EZd-GD-54Y"/>
+                            <constraint firstItem="rAQ-6v-gZi" firstAttribute="leading" secondItem="unv-ii-0sK" secondAttribute="leadingMargin" constant="-20" id="JD0-66-dpe"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rAQ-6v-gZi" secondAttribute="trailing" constant="-20" id="PM0-YE-FEr"/>
+                            <constraint firstItem="wYO-6l-1KA" firstAttribute="top" secondItem="A6U-9I-64s" secondAttribute="bottom" id="Sy8-Y3-kLm"/>
+                            <constraint firstItem="rAQ-6v-gZi" firstAttribute="top" secondItem="unv-ii-0sK" secondAttribute="topMargin" constant="20" id="asY-B1-olW"/>
+                        </constraints>
+                    </view>
+                    <extendedEdge key="edgesForExtendedLayout"/>
+                    <tabBarItem key="tabBarItem" tag="1" title="Map" image="IconMapMarker" selectedImage="IconMapMarkerFilled" id="Aem-WI-pc1"/>
+                    <connections>
+                        <outlet property="buttonActionSheet" destination="uCf-tY-MQR" id="v2j-dW-eS9"/>
+                        <outlet property="buttonScanMap" destination="Mnu-RQ-fL4" id="ch3-qZ-c8g"/>
+                        <outlet property="mapView" destination="A6U-9I-64s" id="XMR-u2-AI2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5ey-tE-DOC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="227" y="755"/>
+        </scene>
+        <!--AboutViewController-->
+        <scene sceneID="QgC-ay-gIu">
+            <objects>
+                <viewController id="iCw-Uz-8WB" userLabel="AboutViewController" customClass="AboutViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DlI-T3-YJ9"/>
+                        <viewControllerLayoutGuide type="bottom" id="32D-8g-tE4"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="QVe-u3-BBh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="tt9-gg-Bmw">
+                                <rect key="frame" x="10" y="10" width="580" height="541"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="tt9-gg-Bmw" secondAttribute="trailing" constant="-10" id="9hP-Nh-N0e"/>
+                            <constraint firstItem="32D-8g-tE4" firstAttribute="top" secondItem="tt9-gg-Bmw" secondAttribute="bottom" id="HL6-66-9XF"/>
+                            <constraint firstItem="tt9-gg-Bmw" firstAttribute="leading" secondItem="QVe-u3-BBh" secondAttribute="leadingMargin" constant="-10" id="UgA-zq-WXl"/>
+                            <constraint firstItem="tt9-gg-Bmw" firstAttribute="top" secondItem="QVe-u3-BBh" secondAttribute="topMargin" constant="10" id="n7O-LT-IoM"/>
+                        </constraints>
+                    </view>
+                    <tabBarItem key="tabBarItem" tag="4" title="About" image="IconAbout" selectedImage="IconAboutFilled" id="tUs-bx-gEn"/>
+                    <connections>
+                        <outlet property="markdownField" destination="tt9-gg-Bmw" id="Mqf-WM-Jdy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eVO-fU-qgA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-991" y="-141"/>
+        </scene>
+        <!--PokeAlmanac-->
+        <scene sceneID="LxF-me-UT9">
+            <objects>
+                <tabBarController title="PokeAlmanac" id="9wP-Zc-NPc" customClass="MainViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="55f-2s-Vw3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="OOk-uH-ICu" kind="relationship" relationship="viewControllers" id="Bll-Ke-VMk"/>
+                        <segue destination="9e0-cW-k9b" kind="relationship" relationship="viewControllers" id="9X0-jy-vr6"/>
+                        <segue destination="WO5-r2-abb" kind="relationship" relationship="viewControllers" id="i1I-BG-FHQ"/>
+                        <segue destination="Ndn-K6-Pd5" kind="relationship" relationship="viewControllers" id="Erm-cF-Ele"/>
+                        <segue destination="iCw-Uz-8WB" kind="relationship" relationship="viewControllers" id="2k5-Nr-0c3"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sjq-Lc-MWw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-74" y="-129"/>
+        </scene>
+        <!--ListViewController-->
+        <scene sceneID="Jjn-Ge-9Lt">
+            <objects>
+                <tableViewController title="List Of Pokemons" id="m3z-Gc-Btm" userLabel="ListViewController" customClass="ListViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" id="z21-E9-iXU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pokemonTableCellIdentifier" rowHeight="132" id="MVV-PQ-bju" customClass="PokemonTableCell" customModule="PokeAlmanac" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="132"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="MVV-PQ-bju" id="g3z-3W-iYV">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="131"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pokemon Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3tb-wK-q3D">
+                                            <rect key="frame" x="140" y="8" width="427" height="37"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="22"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Additional Information" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y8c-ir-AqB">
+                                            <rect key="frame" x="140" y="47" width="419" height="60"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1hN-dk-rdi">
+                                            <rect key="frame" x="16" y="7" width="116" height="116"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="116" id="LXd-4i-V2X"/>
+                                                <constraint firstAttribute="height" constant="116" id="Uxl-8L-n43"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="1hN-dk-rdi" firstAttribute="top" secondItem="g3z-3W-iYV" secondAttribute="topMargin" constant="-1" id="3Iw-PN-BQd"/>
+                                        <constraint firstItem="1hN-dk-rdi" firstAttribute="leading" secondItem="g3z-3W-iYV" secondAttribute="leadingMargin" constant="8" id="gqw-eS-AN2"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="labelInfo" destination="Y8c-ir-AqB" id="2ex-wu-7A5"/>
+                                    <outlet property="labelName" destination="3tb-wK-q3D" id="at2-sz-1g3"/>
+                                    <outlet property="thumbnail" destination="1hN-dk-rdi" id="g62-pk-tjh"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pokemonTableLoadMoreCell" id="4Jb-BQ-Bnd" customClass="PokemonTableLoadMoreCell" customModule="PokeAlmanac" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="224" width="600" height="132"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4Jb-BQ-Bnd" id="vlx-u7-Dlr">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="131"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="LMx-vf-ffh">
+                                            <rect key="frame" x="46" y="55" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading ..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="laS-Yd-Dke">
+                                            <rect key="frame" x="74" y="38" width="496" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="55" id="CBE-0S-6za"/>
+                                                <constraint firstAttribute="width" constant="496" id="LaB-hp-gDB"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="30"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="LMx-vf-ffh" firstAttribute="top" secondItem="vlx-u7-Dlr" secondAttribute="topMargin" constant="47" id="6z4-9t-4zm"/>
+                                        <constraint firstItem="LMx-vf-ffh" firstAttribute="leading" secondItem="vlx-u7-Dlr" secondAttribute="leadingMargin" constant="38" id="AzZ-Xa-kaV"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="LMx-vf-ffh" secondAttribute="bottom" constant="48" id="Btl-Ne-U9Z"/>
+                                        <constraint firstItem="laS-Yd-Dke" firstAttribute="centerY" secondItem="LMx-vf-ffh" secondAttribute="centerY" id="iAm-tT-vok"/>
+                                        <constraint firstItem="laS-Yd-Dke" firstAttribute="leading" secondItem="LMx-vf-ffh" secondAttribute="trailing" constant="8" symbolic="YES" id="zOH-Tb-McE"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="activityIndicator" destination="LMx-vf-ffh" id="awh-JL-O8i"/>
+                                    <outlet property="labelInfo" destination="laS-Yd-Dke" id="6ww-ee-xIG"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="m3z-Gc-Btm" id="oHX-pz-r9u"/>
+                            <outlet property="delegate" destination="m3z-Gc-Btm" id="wEa-dK-LHD"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Item" image="IconList" selectedImage="IconListFilled" id="oay-7M-aQR"/>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="ToD-Cw-Ogf"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LYh-kT-XqS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="756" y="-963"/>
+        </scene>
+        <!--Pokemon Detail View Controller-->
+        <scene sceneID="oR2-b4-pZL">
+            <objects>
+                <viewController storyboardIdentifier="PokemonDetailViewController" id="Jpj-Zj-P3V" customClass="PokemonDetailViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4Lc-UC-ljE"/>
+                        <viewControllerLayoutGuide type="bottom" id="6nN-Oj-MvA"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="xY5-mR-htT">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="2Hg-zL-dyy">
+                                <rect key="frame" x="20" y="20" width="116" height="116"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="116" id="6ne-ZR-62m"/>
+                                    <constraint firstAttribute="height" constant="116" id="9E4-be-rzi"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aBI-Yv-KXV">
+                                <rect key="frame" x="152" y="28" width="428" height="47"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="H92-1H-CP8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="40"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="6gS-uo-QyT">
+                                <rect key="frame" x="20" y="150" width="560" height="29"/>
+                                <segments>
+                                    <segment title="Overview"/>
+                                    <segment title="Sprites"/>
+                                    <segment title="Moves"/>
+                                    <segment title="Forms"/>
+                                </segments>
+                                <connections>
+                                    <action selector="segmentChanged:" destination="Jpj-Zj-P3V" eventType="valueChanged" id="7Oz-9E-0Ak"/>
+                                </connections>
+                            </segmentedControl>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6YC-ca-SVd">
+                                <rect key="frame" x="20" y="212" width="560" height="349"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" name="Roboto-Light" family="Roboto" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sprite" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9cE-Vb-IEB">
+                                <rect key="frame" x="20" y="204" width="560" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="w1c-tC-hE2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="24"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Lg6-kv-jVl">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ars-z0-GB5">
+                                <rect key="frame" x="152" y="83" width="428" height="59"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                                <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="afR-jl-TxB">
+                                <rect key="frame" x="184" y="290" width="232" height="232"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="232" id="3d7-QX-UE3"/>
+                                    <constraint firstAttribute="width" constant="232" id="naI-AF-PkU"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="6YC-ca-SVd" firstAttribute="leading" secondItem="xY5-mR-htT" secondAttribute="leadingMargin" id="2vn-fv-j8m"/>
+                            <constraint firstItem="9cE-Vb-IEB" firstAttribute="leading" secondItem="xY5-mR-htT" secondAttribute="leadingMargin" id="8JV-7c-e4e"/>
+                            <constraint firstItem="6gS-uo-QyT" firstAttribute="trailing" secondItem="xY5-mR-htT" secondAttribute="trailingMargin" id="8Ww-Zl-W0y"/>
+                            <constraint firstItem="aBI-Yv-KXV" firstAttribute="top" secondItem="4Lc-UC-ljE" secondAttribute="bottom" constant="8" id="9dU-tO-IAB"/>
+                            <constraint firstItem="ars-z0-GB5" firstAttribute="trailing" secondItem="xY5-mR-htT" secondAttribute="trailingMargin" id="9qX-ho-zAL"/>
+                            <constraint firstItem="ars-z0-GB5" firstAttribute="leading" secondItem="2Hg-zL-dyy" secondAttribute="trailing" constant="16" id="GpR-Zm-Eux"/>
+                            <constraint firstItem="6nN-Oj-MvA" firstAttribute="top" secondItem="6YC-ca-SVd" secondAttribute="bottom" constant="39" id="H3O-FL-erM"/>
+                            <constraint firstItem="6gS-uo-QyT" firstAttribute="leading" secondItem="xY5-mR-htT" secondAttribute="leadingMargin" id="MA4-Oy-9dm"/>
+                            <constraint firstItem="ars-z0-GB5" firstAttribute="top" secondItem="aBI-Yv-KXV" secondAttribute="bottom" constant="8" id="R8P-Aj-toT"/>
+                            <constraint firstItem="aBI-Yv-KXV" firstAttribute="trailing" secondItem="xY5-mR-htT" secondAttribute="trailingMargin" id="RBS-wY-MCL"/>
+                            <constraint firstItem="afR-jl-TxB" firstAttribute="centerX" secondItem="6YC-ca-SVd" secondAttribute="centerX" id="Rjk-44-GEU"/>
+                            <constraint firstItem="9cE-Vb-IEB" firstAttribute="trailing" secondItem="xY5-mR-htT" secondAttribute="trailingMargin" id="Rp0-jJ-Dpf"/>
+                            <constraint firstItem="6gS-uo-QyT" firstAttribute="top" secondItem="2Hg-zL-dyy" secondAttribute="bottom" constant="14" id="Uey-B1-VhY"/>
+                            <constraint firstItem="afR-jl-TxB" firstAttribute="centerX" secondItem="Lg6-kv-jVl" secondAttribute="centerX" id="XEu-s6-AWb"/>
+                            <constraint firstItem="aBI-Yv-KXV" firstAttribute="leading" secondItem="2Hg-zL-dyy" secondAttribute="trailing" constant="16" id="Zxh-HB-DKm"/>
+                            <constraint firstItem="2Hg-zL-dyy" firstAttribute="top" secondItem="4Lc-UC-ljE" secondAttribute="bottom" id="apt-YS-Kw6"/>
+                            <constraint firstItem="9cE-Vb-IEB" firstAttribute="top" secondItem="6gS-uo-QyT" secondAttribute="bottom" constant="26" id="dDd-bw-PuU"/>
+                            <constraint firstItem="6nN-Oj-MvA" firstAttribute="top" secondItem="afR-jl-TxB" secondAttribute="bottom" constant="78" id="gZ3-4t-Cqo"/>
+                            <constraint firstItem="afR-jl-TxB" firstAttribute="top" secondItem="Lg6-kv-jVl" secondAttribute="top" id="kJm-A1-zzA"/>
+                            <constraint firstItem="2Hg-zL-dyy" firstAttribute="leading" secondItem="xY5-mR-htT" secondAttribute="leadingMargin" id="soU-ap-XMY"/>
+                            <constraint firstItem="6YC-ca-SVd" firstAttribute="trailing" secondItem="xY5-mR-htT" secondAttribute="trailingMargin" id="uYE-PG-dz7"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="activityIndicator" destination="Lg6-kv-jVl" id="hUk-ja-jNK"/>
+                        <outlet property="labelName" destination="aBI-Yv-KXV" id="kod-W5-dEx"/>
+                        <outlet property="labelOther" destination="ars-z0-GB5" id="E2C-zI-2l3"/>
+                        <outlet property="labelSprites" destination="9cE-Vb-IEB" id="QhA-aD-Mml"/>
+                        <outlet property="segmentedControl" destination="6gS-uo-QyT" id="CFj-bY-gF1"/>
+                        <outlet property="spriteImages" destination="afR-jl-TxB" id="rTU-XA-CO4"/>
+                        <outlet property="textInfo" destination="6YC-ca-SVd" id="DTL-N2-Ze2"/>
+                        <outlet property="thumbnail" destination="2Hg-zL-dyy" id="DgI-qA-guw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VHe-eA-2Qe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1431" y="-963"/>
+        </scene>
+        <!--ListNavigationViewController-->
+        <scene sceneID="dgu-1C-ikV">
+            <objects>
+                <navigationController id="OOk-uH-ICu" userLabel="ListNavigationViewController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="List" image="IconList" selectedImage="IconListFilled" id="nP1-Q0-JIL"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="9lP-94-kvp">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="m3z-Gc-Btm" kind="relationship" relationship="rootViewController" id="kCz-lG-wu9"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7XO-0B-Vrk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-12" y="-823"/>
+        </scene>
+        <!--FavoritesNavigationViewController-->
+        <scene sceneID="Zc0-x7-1F0">
+            <objects>
+                <navigationController id="Ndn-K6-Pd5" userLabel="FavoritesNavigationViewController" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="7mV-Al-BPe"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6U4-iA-rfK">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="via-7X-5zS" kind="relationship" relationship="rootViewController" id="bSj-R5-nje"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="j29-Az-zgp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="-129"/>
+        </scene>
+        <!--FavoritesViewController-->
+        <scene sceneID="EXG-Wf-VTL">
+            <objects>
+                <tableViewController title="List Of Pokemons" id="via-7X-5zS" userLabel="FavoritesViewController" customClass="FavoritesViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" id="1kI-Ng-KQ2">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellIdentfierFavs" rowHeight="132" id="EgO-Kd-xY9" customClass="PokemonTableCell" customModule="PokeAlmanac" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="132"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EgO-Kd-xY9" id="Mt0-GK-pGE">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="131"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pokemon Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XLC-fp-1gA">
+                                            <rect key="frame" x="140" y="8" width="427" height="37"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="22"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Additional Information" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tSS-Rm-KDN">
+                                            <rect key="frame" x="140" y="47" width="419" height="60"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="JGJ-Gg-9Dr">
+                                            <rect key="frame" x="16" y="7" width="116" height="116"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="116" id="1x7-9Y-PY5"/>
+                                                <constraint firstAttribute="width" constant="116" id="e3J-cE-HQn"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="JGJ-Gg-9Dr" firstAttribute="leading" secondItem="Mt0-GK-pGE" secondAttribute="leadingMargin" constant="8" id="e2e-EJ-3fT"/>
+                                        <constraint firstItem="JGJ-Gg-9Dr" firstAttribute="top" secondItem="Mt0-GK-pGE" secondAttribute="topMargin" constant="-1" id="mHb-OI-8wm"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="labelInfo" destination="tSS-Rm-KDN" id="eaM-MA-f6M"/>
+                                    <outlet property="labelName" destination="XLC-fp-1gA" id="vOg-Ue-Otf"/>
+                                    <outlet property="thumbnail" destination="JGJ-Gg-9Dr" id="3xN-SA-Iw2"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellIdentifierNoFavs" id="syp-Iv-6Ty" customClass="PokemonTableLoadMoreCell" customModule="PokeAlmanac" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="224" width="600" height="132"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="syp-Iv-6Ty" id="KwC-wa-xAa">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="131"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="No Favorites Yet!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ktD-B6-NDJ">
+                                            <rect key="frame" x="74" y="38" width="496" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="55" id="cUh-tx-Vww"/>
+                                                <constraint firstAttribute="width" constant="496" id="eFm-6r-KZr"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="30"/>
+                                            <color key="textColor" red="0.72856702299999998" green="0.18356805100000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😱" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m6P-ha-pV8">
+                                            <rect key="frame" x="30" y="39" width="36" height="55"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="36" id="hu7-xU-u16"/>
+                                                <constraint firstAttribute="height" constant="55" id="qdn-eU-Cm6"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="NotoEmoji" family="Noto Emoji" pointSize="28"/>
+                                            <color key="textColor" red="0.68955592109999997" green="0.18356805100000001" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="m6P-ha-pV8" firstAttribute="top" secondItem="KwC-wa-xAa" secondAttribute="topMargin" constant="31" id="B0C-al-ZdA"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="m6P-ha-pV8" secondAttribute="bottom" constant="29" id="geM-fc-Xqo"/>
+                                        <constraint firstItem="m6P-ha-pV8" firstAttribute="leading" secondItem="KwC-wa-xAa" secondAttribute="leadingMargin" constant="22" id="kj0-cv-wcP"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="labelInfo" destination="ktD-B6-NDJ" id="NaY-nU-mXK"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="via-7X-5zS" id="LDj-vV-XAG"/>
+                            <outlet property="delegate" destination="via-7X-5zS" id="MAe-oP-s2E"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="iGw-o4-h7h"/>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="opW-r4-DFG"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eV0-a6-xHm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1522" y="-169"/>
+        </scene>
+        <!--BackpackViewController-->
+        <scene sceneID="h1Q-WM-5XW">
+            <objects>
+                <tableViewController storyboardIdentifier="BackpackViewController" title="List Of Pokemons" id="LZb-jP-WZi" userLabel="BackpackViewController" customClass="BackpackViewController" customModule="PokeAlmanac" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="132" sectionHeaderHeight="28" sectionFooterHeight="28" id="p2G-d8-ly6">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cellIdentfierBackpackCell" rowHeight="132" id="jkx-57-GsX" customClass="BackpackTableCell" customModule="PokeAlmanac" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="132"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jkx-57-GsX" id="UrI-YI-FnG">
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="131"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Pokemon Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vSD-Zo-Lrr">
+                                            <rect key="frame" x="140" y="8" width="427" height="37"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="22"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Additional Information" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qo2-Bu-oQ0">
+                                            <rect key="frame" x="140" y="47" width="419" height="60"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RAE-nG-apR">
+                                            <rect key="frame" x="16" y="7" width="116" height="116"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="116" id="hjt-qM-KeA"/>
+                                                <constraint firstAttribute="width" constant="116" id="vQc-cu-DTZ"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="RAE-nG-apR" firstAttribute="top" secondItem="UrI-YI-FnG" secondAttribute="topMargin" constant="-1" id="Vqe-al-sHu"/>
+                                        <constraint firstItem="RAE-nG-apR" firstAttribute="leading" secondItem="UrI-YI-FnG" secondAttribute="leadingMargin" constant="8" id="sG7-Vy-8LT"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="labelInfo" destination="Qo2-Bu-oQ0" id="YGN-K2-eMf"/>
+                                    <outlet property="labelName" destination="vSD-Zo-Lrr" id="Cok-2f-nxm"/>
+                                    <outlet property="thumbnail" destination="RAE-nG-apR" id="xPx-LO-n4M"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellIdentfierBackpackEmptyCell" id="3Jh-7p-jNz" customClass="BackpackEmptyTableCell" customModule="PokeAlmanac" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="224" width="600" height="132"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3Jh-7p-jNz" id="7EH-i3-d6t">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="131"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Catch Some Pokemon First!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vIp-bc-UBJ">
+                                            <rect key="frame" x="53" y="38" width="248" height="55"/>
+                                            <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="20"/>
+                                            <color key="textColor" red="0.7285670230263156" green="0.18356805098684212" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="😱" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Gjq-gR-h7V">
+                                            <rect key="frame" x="15" y="38" width="36" height="55"/>
+                                            <fontDescription key="fontDescription" name="NotoEmoji" family="Noto Emoji" pointSize="28"/>
+                                            <color key="textColor" red="0.68955592105263153" green="0.18356805098684212" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="Gjq-gR-h7V" firstAttribute="top" secondItem="7EH-i3-d6t" secondAttribute="topMargin" constant="30" id="F6k-JD-9n7"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="vIp-bc-UBJ" secondAttribute="bottom" constant="30" id="KZH-Q9-Rc2"/>
+                                        <constraint firstItem="vIp-bc-UBJ" firstAttribute="top" secondItem="7EH-i3-d6t" secondAttribute="topMargin" constant="30" id="P3i-Za-y2l"/>
+                                        <constraint firstItem="Gjq-gR-h7V" firstAttribute="leading" secondItem="7EH-i3-d6t" secondAttribute="leadingMargin" constant="7" id="m67-Zl-LoP"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Gjq-gR-h7V" secondAttribute="bottom" constant="30" id="r8H-rO-XHj"/>
+                                        <constraint firstItem="vIp-bc-UBJ" firstAttribute="leading" secondItem="7EH-i3-d6t" secondAttribute="leadingMargin" constant="45" id="wuQ-mP-lMt"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="labelIcon" destination="Gjq-gR-h7V" id="nid-aL-kp8"/>
+                                    <outlet property="labelInfo" destination="vIp-bc-UBJ" id="GT2-fN-wjT"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="LZb-jP-WZi" id="nrG-oV-Meb"/>
+                            <outlet property="delegate" destination="LZb-jP-WZi" id="ppP-i6-97r"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" systemItem="favorites" id="rFr-yc-Mwg"/>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="Vk8-TF-1jl"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cnt-k0-Has" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-532" y="819"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="IconAbout" width="25" height="25"/>
+        <image name="IconAboutFilled" width="25" height="25"/>
+        <image name="IconBackpack" width="25" height="25"/>
+        <image name="IconBackpackFilled" width="25" height="25"/>
+        <image name="IconList" width="25" height="25"/>
+        <image name="IconListFilled" width="25" height="25"/>
+        <image name="IconMapMarker" width="25" height="25"/>
+        <image name="IconMapMarkerFilled" width="25" height="25"/>
+        <image name="IconMapTreasure" width="25" height="25"/>
+    </resources>
+</document>
