@@ -22,7 +22,7 @@ You can find the code on my GitHub account: [https://github.com/dgollub/pokealma
 
 # Caching
 
-The app tries to cache the PokeAPI RESTful responses in a local SQLite database, however [modified/created timestamps are not available in version 2 of the API](https://github.com/phalt/pokeapi/issues/140).
+The app caches the PokeAPI RESTful responses in a local SQLite database, however [modified/created timestamps are not available in version 2 of the API](https://github.com/phalt/pokeapi/issues/140) so there is no cache invalidation for now.
 
 
 # Known issues

@@ -134,21 +134,17 @@ public class Downloader: NSObject {
         if let dataString = json {
             
             log("downloaded pokemon json")
-            let data: NSData = dataString.dataUsingEncoding(NSUTF8StringEncoding)!
-            
+
             let db = DB()
             let id = extractIdFromJson(dataString)
 
             db.insertOrUpdateCachedResponse(APIType.Pokemon, json: dataString, id: id)
             
-            do {
-                let pokemon = try Pokemon(JSONDecoder(data))
-                
+            if let pokemon = Transformer().jsonToPokemonModel(dataString) {
                 // also save the pokemon in our special pokemon table
                 db.savePokemon(pokemon)
-                
                 completed(pokemon: pokemon, error: .NoError)
-            } catch {
+            } else {
                 logWarn("Could not convert Pokemon JSON to Pokemon object. \(error)")
                 completed(pokemon: nil, error: .APIJSONTransformationFailed)
             }

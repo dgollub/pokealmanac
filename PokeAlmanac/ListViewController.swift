@@ -114,7 +114,6 @@ class ListViewController: UITableViewController {
     }
     
     //
-    // TODO(dkg): INVESTIGATE!!! TEST!!! PROFILE!!!
     // NOTE(dkg):
     // The more Pokemon in the cache, the longer it takes to download additional pokemons.
     // The JSON parsing for the UITableView data takes quite a time when done in a loop for all Pokemons.
@@ -364,7 +363,7 @@ class ListViewController: UITableViewController {
         let maxCount = getMaximumCountPokemons()
         
         
-        if (indexPath.row == count && count < maxCount && maxCount > 0) || maxCount == -1 {
+        if (indexPath.row == count && count < maxCount && maxCount > 0) || (count == 0 && maxCount == -1) {
             // "loading" cell
             let cell: PokemonTableLoadMoreCell = self.tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER_LOAD_MORE) as! PokemonTableLoadMoreCell
             
