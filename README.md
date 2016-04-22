@@ -21,9 +21,14 @@ You can find the code on my GitHub account: [https://github.com/dgollub/pokealma
 
 # Preview
 ![App Preview 01](https://raw.githubusercontent.com/dgollub/pokealmanac/master/preview/pokealmanac-preview-01.gif)
+
 Showing the basic list and details page.
+
+
 ![App Preview 02](https://raw.githubusercontent.com/dgollub/pokealmanac/master/preview/pokealmanac-preview-02.gif)
+
 Showing the map interaction.
+
 
 # Caching
 
