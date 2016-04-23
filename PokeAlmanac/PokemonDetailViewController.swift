@@ -454,13 +454,19 @@ class PokemonDetailViewController: UIViewController {
             self.activityIndicator?.hidden = false
             self.activityIndicator?.startAnimating()
             
-            self.dl.downloadPokemonSprite(self.pokemon!, type: self.currentSpriteType, completed: { (sprite, error) in
+            self.dl.downloadPokemonSprite(self.pokemon!, type: self.currentSpriteType, completed: { (sprite, type, error) in
                 self.activityIndicator?.stopAnimating()
                 self.activityIndicator?.hidden = true
                 if error == APIError.NoError {
                     self.spriteImages?.image = sprite
+                    
+                    // set the thumbnail in the upper left corner, just in case it is still the "no sprite found" image
+                    if type == PokemonSpriteType.FrontDefault {
+                        self.thumbnail?.image = sprite
+                    }
+
                 } else if error == APIError.APINoSpriteForThisType {
-                    self.labelSprites?.text = "No \(self.currentSpriteType.rawValue)"
+                    self.labelSprites?.text = "No \(type.rawValue)"
                 } else {
                     self.labelSprites?.text = "ERROR!"
                 }

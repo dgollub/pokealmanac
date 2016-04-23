@@ -52,7 +52,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     
     var locationManager: CLLocationManager?
     var initialLocation: CLLocation?
-//    var geoCoder: CLGeocoder?
     
     var pokemonAnnotations: [PokemonAnnotation] = []
     
@@ -73,7 +72,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         initialLocation = CLLocation(latitude: 35.7021, longitude: 139.7753) // CLLocationDegrees
         
         mapView?.delegate = self
-//        geoCoder = CLGeocoder()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -93,7 +91,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         log("showActionSheet")
         let actionSheet = UIAlertController(title: "Choose", message: "What do you want to do?", preferredStyle: .ActionSheet)
         
-        let resetLocationAction = UIAlertAction(title: "Reset Location", style: .Default) { (action) in
+        let resetLocationAction = UIAlertAction(title: "Zoom To Start Location", style: .Default) { (action) in
             self.zoomInToLocation(self.initialLocation)
         }
         actionSheet.addAction(resetLocationAction)
@@ -108,7 +106,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             actionSheet.addAction(askForLocationAction)
         }
         
-        let scanAction = UIAlertAction(title: "Scan Map", style: .Default) { (action) in
+        let scanAction = UIAlertAction(title: "Scan For Pokemons", style: .Default) { (action) in
             self.scanMap(action)
         }
         actionSheet.addAction(scanAction)
@@ -128,7 +126,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func zoomInToLocation(selectedLocation: CLLocation?) {
         if let location = selectedLocation {
             let coords = location.coordinate
-            let mapRegion = MKCoordinateRegionMakeWithDistance(coords, 50, 50)
+            let mapRegion = MKCoordinateRegionMakeWithDistance(coords, 100, 100)
             
             self.mapView?.setCenterCoordinate(coords, animated: true)
             self.mapView?.setRegion(mapRegion, animated: true)
@@ -143,7 +141,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // pokemons to show up, but that's it - if the user zooms out too much we
         // do not add more pokemons - this scanner is not that strong
         
-        var pokemonsToAdd: Int = randomInt(1...4)
+        var pokemonsToAdd: Int = randomInt(3...6)
         if pokemonAnnotations.count == 0 || pokemonAnnotations.count < 4 {
             // have at least 3 pokemon on the map at any time
             pokemonsToAdd = 4 - pokemonAnnotations.count
@@ -189,7 +187,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                             dl.downloadPokemonSprite(pokemon, completed: { (error) in
                                 // ignore
                             })
-                            
                         }
                     }
                     
@@ -280,11 +277,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                 self.initialLocation = location
             }
             self.zoomInToLocation(userLocation.location)
-            
-//            let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
-//            dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-//                self.setupPokemonsOnMap(userLocation.location)
-//            })
         }
     }
     

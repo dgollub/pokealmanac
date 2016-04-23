@@ -8,7 +8,7 @@
 
 import Foundation
 import UIKit
-import ReachabilitySwift
+import ReachabilitySwift // TODO(dkg): remove this dependency, as Alamofire already provides the same feature!
 
 private let LOAD_NEXT_MAX_ITEMS: Int = 10
 private let CELL_IDENTIFIER: String = "pokemonTableCellIdentifier"
@@ -31,6 +31,7 @@ class ListViewController: UITableViewController {
 //    var data: [Int]? = nil
     var data: [String]? = nil
     var busyIndicator: BusyOverlay? = nil
+    var maxPokemonCountAPI: Int? = nil
     
     var requestedMoreData: Bool = false
     var downloadingSpritesInBackground: Bool = false
@@ -83,11 +84,22 @@ class ListViewController: UITableViewController {
 
         if count > 0 {
             log("we have data \(count)")
-            // TODO(dkg): figure out what we need to set the currentOffset and currentLimit to!
+            
+            maxPokemonCountAPI = db.getMaximumCountPokemonsAvailableFromAPI()
+            
+            let (offset, limit) = db.getLastUsedOffsetLimit(APIType.ListPokemon)
+            if let offset = offset {
+                currentOffset = offset
+            }
+            if let limit = limit {
+                currentLimit = limit
+            }
+
+            // TODO(dkg): figure out what we need to set the currentOffset and currentLimit to! Do we even need to do that?
             self.tableView.reloadData()
             
             // make sure we also load the thumbnails in case some are missing
-            self.downloadSpritesInBackground()
+            downloadSpritesInBackground()
             
         } else {
             
@@ -98,6 +110,7 @@ class ListViewController: UITableViewController {
 
                 let resourceList = self.transformer.jsonToNamedAPIResourceList(response)
                 
+                maxPokemonCountAPI = resourceList?.count
                 loadDataFromResourceList(resourceList)
 
             } else {
@@ -114,6 +127,8 @@ class ListViewController: UITableViewController {
     // Possible solution could be to only parse data when the tableView requests a cell for display, 
     // and not parse it upfront for all pokemons in the list! That should speed up things for longer
     // lists (60+ pokemon).
+    // Additional solution: put more data directly into additional table columns, so we can just query the DB
+    // for those and don't have to parse any JSON when just displaying data for the PokemonCells.
     //
     func downloadMoreDataInBackground() {
         
@@ -125,7 +140,7 @@ class ListViewController: UITableViewController {
                 self.busyIndicator?.showOverlay()
                 
                 let resourceList = self.transformer.jsonToNamedAPIResourceList(response)
-                
+                self.maxPokemonCountAPI = resourceList?.count
                 self.loadDataFromResourceList(resourceList)
                 
             } else {
@@ -139,6 +154,7 @@ class ListViewController: UITableViewController {
                     log("done saving list - get individual pokemons now")
                     self.downloadingAlready = false
                     if error == APIError.NoError {
+                        self.maxPokemonCountAPI = resourceList?.count
                         self.loadDataFromResourceList(resourceList)
                     } else {
                         dispatch_async(dispatch_get_main_queue(), {
@@ -287,7 +303,7 @@ class ListViewController: UITableViewController {
 
                 } else {
                     
-                    dl.downloadPokemonSprite(pokemonJson, completed: { (sprite, error) in
+                    dl.downloadPokemonSprite(pokemonJson, completed: { (sprite, type, error) in
                         
                         if error != APIError.NoError {
                             errors += 1
@@ -307,7 +323,9 @@ class ListViewController: UITableViewController {
     
     func reloadTableData() {
         autoreleasepool({
-            self.data = DB().loadPokemons()
+            self.data = db.loadPokemons()
+            let count = data!.count // db.getPokemonCount()
+            self.title = "\(count) Pokemons"
         })
         // make sure we are actually visible, otherwise don't bother
         if self.isViewLoaded() && self.view.window != nil {
@@ -315,19 +333,7 @@ class ListViewController: UITableViewController {
         }
     }
     
-    func getMaximumCountPokemons() -> Int {
-        var maxCount = -1
-        
-        let cachedResponse = self.db.getCachedResponse(APIType.ListPokemon, offset: 0, limit: self.currentLimit)
-        if let response = cachedResponse {
-            let resourceList = self.transformer.jsonToNamedAPIResourceList(response)
-            if let list = resourceList {
-                maxCount = list.count
-            }
-        }
-        
-        return maxCount
-    }
+    
     
     // tableView callbacks
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -335,9 +341,8 @@ class ListViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // check if we already reached the end?! if so, no need to load more data
-        let maxCount = getMaximumCountPokemons()
         
+        let maxCount = maxPokemonCountAPI == nil ? -1 : maxPokemonCountAPI!
         if let theData = self.data {
             if theData.count >= maxCount && maxCount > 0 {
                 return theData.count
@@ -352,24 +357,39 @@ class ListViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
     
         let count = data!.count
-        
-        // check if we already reached the end?! if so, no need to load more data
-        let maxCount = getMaximumCountPokemons()
-        
+        let maxCount = maxPokemonCountAPI == nil ? -1 : maxPokemonCountAPI!
         
         if (indexPath.row == count && count < maxCount && maxCount > 0) || (count == 0 && maxCount == -1) {
             // "loading" cell
             let cell: PokemonTableLoadMoreCell = self.tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER_LOAD_MORE) as! PokemonTableLoadMoreCell
             
-            if !self.requestedMoreData {
+            if !requestedMoreData {
 
                 requestedMoreData = true
                 
                 if count > 0 {
-                    currentOffset += currentLimit
+                    // NOTE(dkg): need to increment the offset until we are at the right position
+                    let rest = count % currentLimit
+                    let start = count - rest
+                    
+                    if currentOffset < start {
+                        currentOffset = start
+                        while currentOffset < start {
+                            currentOffset += currentLimit
+                        }
+                    } else {
+                        currentOffset += currentLimit
+                    }
+                    
+                    // sanity checks
+                    if currentOffset < 0 {
+                        currentOffset = 0
+                    } else if currentOffset > maxCount && maxCount > 0 {
+                        currentOffset = maxCount - currentLimit
+                    }
                 }
 
-                self.busyIndicator?.showOverlay()
+                busyIndicator?.showOverlay()
                 downloadMoreDataInBackground()
             }
             

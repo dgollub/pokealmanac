@@ -9,7 +9,17 @@
 import Foundation
 import Alamofire
 import JSONJoy
-//import BrightFutures // TODO(dkg): if not used, remove from Podfile as well!!!!!
+
+//
+// TODO(dkg): The current callback-based approach for downloading data is really not well suited for this app.
+// It is too fickle and prone to "oopps, my UI (and callback) was deallocated while I was still busy" kind of errors.
+// A much better approach would be either of the following:
+//
+// - Futures/Promises, with cancelation tokens
+// - Observer pattern via the NSNotificationCenter (all downloads would run in different (background) threads and notify
+//   the UI via notifications that the UI has to subscribe to
+//
+
 
 private let API_BASE_URL = "http://pokeapi.co/api/v2"
 private let API_POKEMON_URL = API_BASE_URL + "/pokemon"
@@ -255,27 +265,27 @@ public class Downloader: NSObject {
     
     // TODO(dkg): improve error handling
     
-    public func downloadPokemonSprite(pokemonJson: String, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, error: APIError) -> Void) {
+    public func downloadPokemonSprite(pokemonJson: String, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, type: PokemonSpriteType, error: APIError) -> Void) {
         // TODO(dkg): add autoreleasepool here?
         if let pokemon = Transformer().jsonToPokemonModel(pokemonJson) {
             downloadPokemonSprite(pokemon, type: type, completed: completed)
         } else {
             log("could not load or convert Pokemon for JSON data")
-            completed(sprite: nil, error: APIError.APIJSONTransformationFailed)
+            completed(sprite: nil, type: type, error: APIError.APIJSONTransformationFailed)
         }
     }
     
-    public func downloadPokemonSprite(pokemonId: Int, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, error: APIError) -> Void) {
+    public func downloadPokemonSprite(pokemonId: Int, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, type: PokemonSpriteType, error: APIError) -> Void) {
         // TODO(dkg): add autoreleasepool here?
         if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
             downloadPokemonSprite(pokemon, type: type, completed: completed)
         } else {
             log("could not load or convert Pokemon for ID \(pokemonId)")
-            completed(sprite: nil, error: APIError.APIJSONTransformationFailed)
+            completed(sprite: nil, type: type, error: APIError.APIJSONTransformationFailed)
         }
     }
 
-    public func downloadPokemonSprite(pokemon: Pokemon, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, error: APIError) -> Void) {
+    public func downloadPokemonSprite(pokemon: Pokemon, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, type: PokemonSpriteType, error: APIError) -> Void) {
         if let fileName = createPokemonSpriteFilename(pokemon, type: type) {
             if let url = getPokemonSpriteUrl(pokemon, type: type) {
                 Alamofire.request(.GET, url)
@@ -285,22 +295,22 @@ public class Downloader: NSObject {
                             if let data: NSData = response.result.value {
                                 if data.writeToFile(fileName, atomically: true) {
                                     log("wrote file : \(fileName)")
-                                    completed(sprite: UIImage(data: data)!, error: .NoError)
+                                    completed(sprite: UIImage(data: data)!, type: type, error: .NoError)
                                 } else {
-                                    completed(sprite: nil, error: .APICouldNotSaveToCacheOrFile)
+                                    completed(sprite: nil, type: type, error: .APICouldNotSaveToCacheOrFile)
                                 }
                                 return
                             }
                         }
-                        completed(sprite: nil, error: .APIOther) // TODO(dkg): Figure out the real error here and pass it on accordingly.
+                        completed(sprite: nil, type: type, error: .APIOther) // TODO(dkg): Figure out the real error here and pass it on accordingly.
                 }
             } else {
                 log("could not get url for sprite download")
-                completed(sprite: nil, error: APIError.APIOther)
+                completed(sprite: nil, type: type, error: APIError.APIOther)
             }
         } else {
 //            log("could not create filename for sprite download")
-            completed(sprite: nil, error: APIError.APINoSpriteForThisType)
+            completed(sprite: nil, type: type, error: APIError.APINoSpriteForThisType)
         }
     }
     

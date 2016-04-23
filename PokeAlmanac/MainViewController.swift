@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import ReachabilitySwift
+import ReachabilitySwift // TODO(dkg): remove this dependency, as Alamofire already provides the same feature!
 
 
 class MainViewController: UITabBarController {

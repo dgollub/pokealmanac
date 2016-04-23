@@ -175,11 +175,44 @@ public final class DB {
         let max = db.scalar(query.select(idColumn.max))
         return max
     }
+
     public func getPokemonCount() -> Int {
         let count = db.scalar("SELECT COUNT(*) FROM pokemon") as! Int64
         return Int(count)
     }
-    
+
+    func getMaximumCountPokemonsAvailableFromAPI() -> Int? {
+        var maxCount: Int? = nil
+        
+        let apiCacheTable = Table("api_cache")
+        
+        let idColumn = Expression<Int>("id")
+        let apiTypeColumn = Expression<String>("apiType")
+        let jsonColumn = Expression<String>("jsonResponse")
+        let apiVersionColumn = Expression<Int>("apiVersion")
+        let lastUpdatedColumn = Expression<NSDate>("lastUpdated")
+        
+        // TODO(dkg): we should probably look at the LAST API result that we got for the 
+        //            pokemon list, instead of just a "random" (or rather the first) one like this
+        
+        let query = apiCacheTable
+            .filter(idColumn == API_LIST_REQUEST_ID)
+            .filter(apiTypeColumn == APIType.ListPokemon.rawValue)
+            .filter(apiVersionColumn == API_VERSION)
+            .order(lastUpdatedColumn.desc)
+            .limit(1)
+        
+        let row = db.pluck(query)
+        
+        if let json = row?.get(jsonColumn) {
+            let resourceList = Transformer().jsonToNamedAPIResourceList(json)
+            if let list = resourceList {
+                maxCount = list.count
+            }
+        }
+        
+        return maxCount
+    }
 
     // TODO(dkg): refactor common table creation/statement execution code
     private func createCacheTable() {
@@ -207,6 +240,11 @@ public final class DB {
     
     private func createPokemonTables() {
         do {
+            // TODO(dkg): Put all information that we want to display in the UITableView cells right here
+            //            in additional columns, so we do not have to parse any JSON whatsoever when we
+            //            just want to display the list of pokemons - this will solve our performance issue
+            //            in the ListViewController where we currently parse JSON in order to populate our
+            //            PokemonTableCells!!!!
             let sql = "CREATE TABLE IF NOT EXISTS pokemon (" +
                       "id INTEGER PRIMARY KEY NOT NULL, " + // the actual resource ID for the pokemon
                       "name TEXT NOT NULL, " +
@@ -472,6 +510,8 @@ public final class DB {
         }
     }
     
+    // TODO(dkg): this is slow when there are a lot of pokemon in the backpack - find a more
+    //            performant way to do this
     public func loadPokemonsFromBackpackAsPokemonAnnotations() -> [PokemonAnnotation] {
         log("loadPokemonsFromBackpack() start")
 
