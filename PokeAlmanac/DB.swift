@@ -60,13 +60,13 @@ public final class DB {
     
     
     // TODO(dkg): improve error handling/reporting
-    public func insertOrUpdateCachedResponse(type: APIType, json: String, id: Int = API_LIST_REQUEST_ID, offset: Int = 0, limit: Int = 0, lastUpdated: String = "NOW") -> Void {
+    public func insertOrUpdateCachedResponse(type: APIType, json: String, id: Int = API_LIST_REQUEST_ID, offset: Int = 0, limit: Int = 0, lastUpdated: NSDate = NSDate()) -> Void {
 
         let apiCacheTable = Table("api_cache")
         let idColumn = Expression<Int>("id")
         let apiTypeColumn = Expression<String>("apiType")
         let jsonColumn = Expression<String>("jsonResponse")
-        let lastUpdatedColumn = Expression<String>("lastUpdated")
+        let lastUpdatedColumn = Expression<NSDate>("lastUpdated")
         let limitColumn = Expression<Int>("listLimit")
         let offsetColumn = Expression<Int>("listOffset")
         let apiVersionColumn = Expression<Int>("apiVersion")
@@ -226,7 +226,7 @@ public final class DB {
                       "listOffset INTEGER NOT NULL DEFAULT 0, " +  // offset might be reserved keyword
                       "apiVersion INTEGER NOT NULL DEFAULT 2, " +  // can't use the API_VERSION constant here, because the compiler complains about complexity of the expression ... what?! Why?! Must be a compiler bug.... == // Expression was too complex to be solved in reasonable time; consider breaking up the expression into distinct sub-expressions.
                       "appVersion INTEGER NOT NULL DEFAULT 1, " +  // same here
-                      "lastUpdated DATETIME NOT NULL, " +
+                      "lastUpdated DATETIME NOT NULL DEFAULT NOW, " +
                       "jsonResponse TEXT, " +
                       "PRIMARY KEY (apiType, id, listLimit, listOffset)" + // TODO(dkg): Should apiVersion be part of the PK?
                       ")"
