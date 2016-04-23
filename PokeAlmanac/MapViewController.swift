@@ -205,7 +205,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func getRandomCoordinates(fromCoords: CLLocationCoordinate2D) -> CLLocationCoordinate2D {
-        let randomMeters = randomInt(5...200)
+        let randomMeters = randomInt(5...120)
         let randomBearing = randomInt(0...359)
         
         let coords = self.locationWithBearing(Double(randomBearing), distanceMeters: Double(randomMeters), origin: fromCoords)
@@ -373,14 +373,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
                     let playerChance = randomInt(0...100)
                     
                     if playerChance <= winChance {
-                        
                         self.putCaughtPokemonInBackpack(annotation,
-                                                        message: "You chose wisely and caught \(pokemon.name.capitalizedString).\nCongratulations!\nYou put it in your backpack.",
+                                                        message: "You chose wisely and caught \(annotation.pokemon.name.capitalizedString).\nCongratulations!\nYou put it in your backpack.",
                                                         title: "You Won!")
                         
                     } else {
                         showErrorAlert(self, message: "You chose ... poorly.\n", title: "You Lost!", completion: {
-                            self.runAwayPokemon(annotation, message: "The \(pokemon.name.capitalizedString) ran away.", title: "Oh dear!")
+                            self.runAwayPokemon(annotation, message: "The \(annotation.pokemon.name.capitalizedString) ran away.", title: "Oh dear!")
                         })
                     }
                 }
@@ -447,7 +446,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
         // there is a chance that the pokemon will run away anyway
         let runAwayChance = randomInt(0...100)
         if runAwayChance > 65 {
-            
             showErrorAlert(self, message: message, title: title, completion: {
                 let coords = annotation.coordinate
                 let newCoords = self.getRandomCoordinates(coords)

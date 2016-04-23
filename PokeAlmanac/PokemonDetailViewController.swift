@@ -453,11 +453,12 @@ class PokemonDetailViewController: UIViewController {
             self.spriteImages?.image = UIImage(named: "IconUnknownPokemon")
             self.activityIndicator?.hidden = false
             self.activityIndicator?.startAnimating()
-            self.dl.downloadPokemonSprite(self.pokemon!, type: self.currentSpriteType, completed: { (error) in
+            
+            self.dl.downloadPokemonSprite(self.pokemon!, type: self.currentSpriteType, completed: { (sprite, error) in
                 self.activityIndicator?.stopAnimating()
                 self.activityIndicator?.hidden = true
                 if error == APIError.NoError {
-                    self.spriteImages?.image = self.dl.getPokemonSpriteFromCache(self.pokemon!)
+                    self.spriteImages?.image = sprite
                 } else if error == APIError.APINoSpriteForThisType {
                     self.labelSprites?.text = "No \(self.currentSpriteType.rawValue)"
                 } else {

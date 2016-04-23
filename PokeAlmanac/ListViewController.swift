@@ -45,7 +45,9 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         log("ListViewController")
         
-        self.title = "Pokemons"
+        
+        let count = self.db.getPokemonCount()
+        self.title = "\(count) Pokemons"
         
         busyIndicator = BusyOverlay()
      
@@ -285,7 +287,7 @@ class ListViewController: UITableViewController {
 
                 } else {
                     
-                    dl.downloadPokemonSprite(pokemonJson, completed: { (error) in
+                    dl.downloadPokemonSprite(pokemonJson, completed: { (sprite, error) in
                         
                         if error != APIError.NoError {
                             errors += 1

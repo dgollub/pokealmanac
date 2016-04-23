@@ -255,27 +255,27 @@ public class Downloader: NSObject {
     
     // TODO(dkg): improve error handling
     
-    public func downloadPokemonSprite(pokemonJson: String, type: PokemonSpriteType = .FrontDefault, completed: (error: APIError) -> Void) {
+    public func downloadPokemonSprite(pokemonJson: String, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, error: APIError) -> Void) {
         // TODO(dkg): add autoreleasepool here?
         if let pokemon = Transformer().jsonToPokemonModel(pokemonJson) {
             downloadPokemonSprite(pokemon, type: type, completed: completed)
         } else {
             log("could not load or convert Pokemon for JSON data")
-            completed(error: APIError.APIJSONTransformationFailed)
+            completed(sprite: nil, error: APIError.APIJSONTransformationFailed)
         }
     }
     
-    public func downloadPokemonSprite(pokemonId: Int, type: PokemonSpriteType = .FrontDefault, completed: (error: APIError) -> Void) {
+    public func downloadPokemonSprite(pokemonId: Int, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, error: APIError) -> Void) {
         // TODO(dkg): add autoreleasepool here?
         if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
             downloadPokemonSprite(pokemon, type: type, completed: completed)
         } else {
             log("could not load or convert Pokemon for ID \(pokemonId)")
-            completed(error: APIError.APIJSONTransformationFailed)
+            completed(sprite: nil, error: APIError.APIJSONTransformationFailed)
         }
     }
 
-    public func downloadPokemonSprite(pokemon: Pokemon, type: PokemonSpriteType = .FrontDefault, completed: (error: APIError) -> Void) {
+    public func downloadPokemonSprite(pokemon: Pokemon, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, error: APIError) -> Void) {
         if let fileName = createPokemonSpriteFilename(pokemon, type: type) {
             if let url = getPokemonSpriteUrl(pokemon, type: type) {
                 Alamofire.request(.GET, url)
@@ -285,22 +285,22 @@ public class Downloader: NSObject {
                             if let data: NSData = response.result.value {
                                 if data.writeToFile(fileName, atomically: true) {
                                     log("wrote file : \(fileName)")
-                                    completed(error: .NoError)
+                                    completed(sprite: UIImage(data: data)!, error: .NoError)
                                 } else {
-                                    completed(error: .APICouldNotSaveToCacheOrFile)
+                                    completed(sprite: nil, error: .APICouldNotSaveToCacheOrFile)
                                 }
                                 return
                             }
                         }
-                        completed(error: .APIOther) // TODO(dkg): Figure out the real error here and pass it on accordingly.
+                        completed(sprite: nil, error: .APIOther) // TODO(dkg): Figure out the real error here and pass it on accordingly.
                 }
             } else {
                 log("could not get url for sprite download")
-                completed(error: APIError.APIOther)
+                completed(sprite: nil, error: APIError.APIOther)
             }
         } else {
 //            log("could not create filename for sprite download")
-            completed(error: APIError.APINoSpriteForThisType)
+            completed(sprite: nil, error: APIError.APINoSpriteForThisType)
         }
     }
     

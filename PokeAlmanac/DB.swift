@@ -175,6 +175,10 @@ public final class DB {
         let max = db.scalar(query.select(idColumn.max))
         return max
     }
+    public func getPokemonCount() -> Int {
+        let count = db.scalar("SELECT COUNT(*) FROM pokemon") as! Int64
+        return Int(count)
+    }
     
 
     // TODO(dkg): refactor common table creation/statement execution code
