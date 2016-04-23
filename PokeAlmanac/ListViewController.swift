@@ -21,8 +21,10 @@ private let CELL_IDENTIFIER_LOAD_MORE: String = "pokemonTableLoadMoreCell"
 // TODO(dkg): add a ProgressView when ever downloading either JSON or Images
 // TODO(dkg): need a way to invalidate the response cache
 
-class ListViewController: UITableViewController {
+class ListViewController: UITableViewController, UISearchBarDelegate {
     
+    @IBOutlet weak var searchBar: UISearchBar?
+
     let dl = Downloader()
     let db = DB()
     let transformer = Transformer()
@@ -33,10 +35,13 @@ class ListViewController: UITableViewController {
     var busyIndicator: BusyOverlay? = nil
     var maxPokemonCountAPI: Int? = nil
     
+    // TODO(dkg): clean this up, this is not very nice/neat
     var requestedMoreData: Bool = false
     var downloadingSpritesInBackground: Bool = false
     var downloadingSpritesAlready: Bool = false
     var downloadingAlready: Bool = false
+    
+    var displaySearchResults: Bool = false
 
     // API endpoint parameters
     var currentOffset: Int = 0
@@ -46,14 +51,22 @@ class ListViewController: UITableViewController {
         super.viewDidLoad()
         log("ListViewController")
         
-        
         let count = self.db.getPokemonCount()
         self.title = "\(count) Pokemons"
         
         busyIndicator = BusyOverlay()
      
+        displaySearchResults = false
+        
         // Load data from cache, and if we don't have any, request it from the server
         loadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        if searchBar?.delegate == nil {
+            searchBar?.delegate = self
+        }
     }
  
     func loadData() {
@@ -321,19 +334,31 @@ class ListViewController: UITableViewController {
         }
     }
     
-    func reloadTableData() {
-        autoreleasepool({
-            self.data = db.loadPokemons()
-            let count = data!.count // db.getPokemonCount()
-            self.title = "\(count) Pokemons"
-        })
-        // make sure we are actually visible, otherwise don't bother
-        if self.isViewLoaded() && self.view.window != nil {
-            self.tableView.reloadData()
+    func reloadTableData(searchTerm: String? = nil) {
+        busyIndicator?.showOverlay()
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            autoreleasepool({
+                if let searchTerm = searchTerm {
+                    self.data = self.db.loadPokemonsWithFilter(searchTerm)
+                } else {
+                    self.data = self.db.loadPokemons()
+                }
+                self.busyIndicator?.hideOverlayView()
+                let count = self.data!.count // db.getPokemonCount()
+                if self.displaySearchResults {
+                    self.title = "Found \(count) Pokemons"
+                } else {
+                    self.title = "\(count) Pokemons"
+                }
+            })
+            // make sure we are actually visible, otherwise don't bother
+            if self.isViewLoaded() && self.view.window != nil {
+                self.tableView.reloadData()
+            }
         }
     }
-    
-    
     
     // tableView callbacks
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -344,7 +369,7 @@ class ListViewController: UITableViewController {
         
         let maxCount = maxPokemonCountAPI == nil ? -1 : maxPokemonCountAPI!
         if let theData = self.data {
-            if theData.count >= maxCount && maxCount > 0 {
+            if (theData.count >= maxCount && maxCount > 0) || displaySearchResults  {
                 return theData.count
             } else {
                 return theData.count + 1 // + 1 is for the "loading more data" cell
@@ -359,7 +384,7 @@ class ListViewController: UITableViewController {
         let count = data!.count
         let maxCount = maxPokemonCountAPI == nil ? -1 : maxPokemonCountAPI!
         
-        if (indexPath.row == count && count < maxCount && maxCount > 0) || (count == 0 && maxCount == -1) {
+        if (!displaySearchResults) && ((indexPath.row == count && count < maxCount && maxCount > 0) || (count == 0 && maxCount == -1)) {
             // "loading" cell
             let cell: PokemonTableLoadMoreCell = self.tableView.dequeueReusableCellWithIdentifier(CELL_IDENTIFIER_LOAD_MORE) as! PokemonTableLoadMoreCell
             
@@ -466,6 +491,47 @@ class ListViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         logWarn("didReceiveMemoryWarning")
     }
+    
+    // UISearchBarDelegate callbacks
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        log("textdidchange \(searchText)")
+        executeOrCancelSearch(searchText)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        log("searchBarCancelButtonClicked")
+        searchBar.resignFirstResponder()
+        executeOrCancelSearch()
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        log("searchBarSearchButtonClicked")
+        executeOrCancelSearch(searchBar.text)
+    }
+    
+    func executeOrCancelSearch(term: String? = nil) {
+        log("executeOrCancelSearch(\(term))")
+        
+        // NOTE(dkg): need the dispatch because of keyboard not disappearing when resignFirstResponder is
+        //            called on the same run-loop iteration
+        // http://stackoverflow.com/a/22177234/193165 ==> Just resign the first responder but in the next run loop
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+        dispatch_after(delayTime, dispatch_get_main_queue()) {
+            if let term = term {
+                self.displaySearchResults = !term.isEmpty
+                if term.isEmpty {
+                    self.searchBar?.endEditing(true)
+                    self.searchBar?.resignFirstResponder()
+                }
+                self.reloadTableData(term.isEmpty ? nil : term)
+            } else {
+                self.displaySearchResults = false
+                self.searchBar?.endEditing(true)
+                self.searchBar?.resignFirstResponder()
+                self.reloadTableData()
+            }
+        }
+    }
 
 }
-

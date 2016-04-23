@@ -414,6 +414,35 @@ public final class DB {
         return result
     }
     
+    func loadPokemonsWithFilter(term: String) -> [String] {
+        log("loadPokemonsWithFilter(\(term))")
+        
+        let pokemonTable = Table("pokemon")
+        let apiCacheTable = Table("api_cache")
+        let nameColumn = Expression<String>("name")
+        let pokemonIdColumn = Expression<Int>("id")
+        let idColumn = Expression<Int>("id")
+        let jsonColumn = Expression<String>("jsonResponse")
+        let apiTypeColumn = Expression<String>("apiType")
+        
+        let joinQuery = pokemonTable.join(apiCacheTable, on: apiCacheTable[idColumn] == pokemonTable[pokemonIdColumn])
+                                    .filter(apiTypeColumn == APIType.Pokemon.rawValue)
+                                    .filter(pokemonTable[nameColumn].lowercaseString.like("%\(term.lowercaseString)%"))
+                                    .order(nameColumn)
+        let query = joinQuery.select(jsonColumn)
+        
+        let rows = try! db.prepare(query)
+        
+        var result = [String]()
+        for row in rows {
+            let json = row.get(jsonColumn)
+            result.append(json)
+        }
+        
+        return result
+    }
+    
+    
     public func loadFavoritePokemons() -> [Pokemon] {
         log("loadFavoritePokemons() start")
 
