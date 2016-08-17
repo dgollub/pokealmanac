@@ -30,7 +30,8 @@ class FavoritesViewController: UITableViewController {
     
     func loadData() {
         log("loadData")
-        data = db.loadFavoritePokemons()
+//        data = db.loadFavoritePokemons()
+        assert(false, "implement me again")
         self.tableView.reloadData()
     }
     
@@ -107,7 +108,8 @@ class FavoritesViewController: UITableViewController {
                 if let pokemonData = self.data {
                     let pokemon = pokemonData[indexPath.row]
                     
-                    self.db.updatePokemonFavoriteStatus(pokemon.id, isFavorite: false)
+                    assert(false, "implement me again")
+//                    self.db.updatePokemonFavoriteStatus(pokemon.id, isFavorite: false)
                     
                     self.tableView.setEditing(false, animated: true)
                     

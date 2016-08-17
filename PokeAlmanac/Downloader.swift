@@ -106,7 +106,8 @@ public class Downloader: NSObject {
                 // Pokemon data. We need to manually download each of those.
 
                 let db = DB()
-                db.insertOrUpdateCachedResponse(APIType.ListPokemon, json: dataString, offset: offset, limit: limit)
+                assert(false, "implement me again")
+//                db.insertOrUpdateCachedResponse(APIType.ListPokemon, json: dataString, requestId: offset, queryParameters: limit)
 
                 let resourceList = Transformer().jsonToNamedAPIResourceList(dataString)
                 if let list = resourceList {
@@ -141,6 +142,8 @@ public class Downloader: NSObject {
     }
     
     private func cachePokemonAndTransform(json: String?, error: APIError, completed: (pokemon: Pokemon?, error: APIError) -> Void) {
+        assert(false, "implement me again")
+        
         if let dataString = json {
             
             log("downloaded pokemon json")
@@ -148,11 +151,11 @@ public class Downloader: NSObject {
             let db = DB()
             let id = extractIdFromJson(dataString)
 
-            db.insertOrUpdateCachedResponse(APIType.Pokemon, json: dataString, id: id)
+//            db.insertOrUpdateCachedResponse(APIType.Pokemon, json: dataString, id: id)
             
             if let pokemon = Transformer().jsonToPokemonModel(dataString) {
                 // also save the pokemon in our special pokemon table
-                db.savePokemon(pokemon)
+//                db.savePokemon(pokemon)
                 completed(pokemon: pokemon, error: .NoError)
             } else {
                 logWarn("Could not convert Pokemon JSON to Pokemon object. \(error)")
@@ -239,11 +242,12 @@ public class Downloader: NSObject {
     
     public func getPokemonSpriteFromCache(pokemonId: Int, type: PokemonSpriteType = .FrontDefault) -> UIImage? {
         // TODO(dkg): add autoreleasepool here?
-        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
-            return getPokemonSpriteFromCache(pokemon)
-        } else {
-            return nil
-        }
+//        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
+//            return getPokemonSpriteFromCache(pokemon)
+//        } else {
+//            return nil
+//        }
+        assert(false, "implement me again")
     }
 
     public func getPokemonSpriteFromCache(pokemon: Pokemon, type: PokemonSpriteType = .FrontDefault) -> UIImage? {
@@ -277,12 +281,13 @@ public class Downloader: NSObject {
     
     public func downloadPokemonSprite(pokemonId: Int, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, type: PokemonSpriteType, error: APIError) -> Void) {
         // TODO(dkg): add autoreleasepool here?
-        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
-            downloadPokemonSprite(pokemon, type: type, completed: completed)
-        } else {
-            log("could not load or convert Pokemon for ID \(pokemonId)")
-            completed(sprite: nil, type: type, error: APIError.APIJSONTransformationFailed)
-        }
+//        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
+//            downloadPokemonSprite(pokemon, type: type, completed: completed)
+//        } else {
+//            log("could not load or convert Pokemon for ID \(pokemonId)")
+//            completed(sprite: nil, type: type, error: APIError.APIJSONTransformationFailed)
+//        }
+        assert(false, "implement me again")
     }
 
     public func downloadPokemonSprite(pokemon: Pokemon, type: PokemonSpriteType = .FrontDefault, completed: (sprite: UIImage?, type: PokemonSpriteType, error: APIError) -> Void) {

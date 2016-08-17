@@ -136,69 +136,72 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     func setupPokemonsOnMap(aLocation: CLLocation? = nil) {
         
         log("setupPokemonsOnMap")
+        
+        assert(false, "implement me again")
+        
         // if we have already set up pokemons for this map, don't set up more
         // there should be a radius of 100m (or 500m or whatever) in which we allow
         // pokemons to show up, but that's it - if the user zooms out too much we
         // do not add more pokemons - this scanner is not that strong
-        
-        var pokemonsToAdd: Int = randomInt(3...6)
-        if pokemonAnnotations.count == 0 || pokemonAnnotations.count < 4 {
-            // have at least 3 pokemon on the map at any time
-            pokemonsToAdd = 4 - pokemonAnnotations.count
-        } else if pokemonAnnotations.count > 10 {
-            pokemonsToAdd = 0
-        }
-        
-        var location: CLLocation? = aLocation
-        
-        if let _ = location {} else {
-            location = self.initialLocation
-        }
-
-        if pokemonsToAdd > 0 {
-            if let location = location {
-                
-                var left = 0
-                
-                self.busyIndicator.showOverlay()
-                
-                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
-                dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-                
-                    let dl = Downloader()
-                    let pokemonsJsons = DB().loadPokemons()
-                    let transformer = Transformer()
-                    
-                    for _ in 1...pokemonsToAdd {
-                        let index = randomInt(0...pokemonsJsons.count - 1)
-                        let pokemon = transformer.jsonToPokemonModel(pokemonsJsons[index])!
-                        
-                        let pokemonCoords = self.getRandomCoordinates(location.coordinate)
-                        
-                        if let image = dl.getPokemonSpriteFromCache(pokemon) {
-                            let annotation = PokemonAnnotation(coordinate: pokemonCoords, pokemon: pokemon, image: image)
-                            self.pokemonAnnotations.append(annotation)
-                        
-                            // put the annotation on the map
-                            self.mapView?.addAnnotation(annotation)
-                        } else {
-                            left += 1
-                            
-                            dl.downloadPokemonSprite(pokemon, completed: { (error) in
-                                // ignore
-                            })
-                        }
-                    }
-                    
-                    if left > 0 {
-                        self.setupPokemonsOnMap(location)
-                    }
-                    
-                    self.busyIndicator.hideOverlayView()
-                })
-
-            }
-        }
+//
+//        var pokemonsToAdd: Int = randomInt(3...6)
+//        if pokemonAnnotations.count == 0 || pokemonAnnotations.count < 4 {
+//            // have at least 3 pokemon on the map at any time
+//            pokemonsToAdd = 4 - pokemonAnnotations.count
+//        } else if pokemonAnnotations.count > 10 {
+//            pokemonsToAdd = 0
+//        }
+//        
+//        var location: CLLocation? = aLocation
+//        
+//        if let _ = location {} else {
+//            location = self.initialLocation
+//        }
+//
+//        if pokemonsToAdd > 0 {
+//            if let location = location {
+//                
+//                var left = 0
+//                
+//                self.busyIndicator.showOverlay()
+//                
+//                let dispatchTime: dispatch_time_t = dispatch_time(DISPATCH_TIME_NOW, Int64(0.1 * Double(NSEC_PER_SEC)))
+//                dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+//                
+//                    let dl = Downloader()
+//                    let pokemonsJsons = DB().loadPokemons()
+//                    let transformer = Transformer()
+//                    
+//                    for _ in 1...pokemonsToAdd {
+//                        let index = randomInt(0...pokemonsJsons.count - 1)
+//                        let pokemon = transformer.jsonToPokemonModel(pokemonsJsons[index])!
+//                        
+//                        let pokemonCoords = self.getRandomCoordinates(location.coordinate)
+//                        
+//                        if let image = dl.getPokemonSpriteFromCache(pokemon) {
+//                            let annotation = PokemonAnnotation(coordinate: pokemonCoords, pokemon: pokemon, image: image)
+//                            self.pokemonAnnotations.append(annotation)
+//                        
+//                            // put the annotation on the map
+//                            self.mapView?.addAnnotation(annotation)
+//                        } else {
+//                            left += 1
+//                            
+//                            dl.downloadPokemonSprite(pokemon, completed: { (error) in
+//                                // ignore
+//                            })
+//                        }
+//                    }
+//                    
+//                    if left > 0 {
+//                        self.setupPokemonsOnMap(location)
+//                    }
+//                    
+//                    self.busyIndicator.hideOverlayView()
+//                })
+//
+//            }
+//        }
     }
     
     func getRandomCoordinates(fromCoords: CLLocationCoordinate2D) -> CLLocationCoordinate2D {
@@ -340,51 +343,54 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func attackPokemon(annotation: PokemonAnnotation) {
-        // check if we have any pokemons in our backpack first.
-        let backpack = DB().loadPokemonsFromBackpackAsPokemonAnnotations()
-        let count = backpack.count
-        if count > 0 {
-            let actionSheet = UIAlertController(title: "Choose", message: "Which Pokemon do you want to use in the battle against \(annotation.pokemon.name.capitalizedString)?", preferredStyle: .ActionSheet)
-            
-            // TODO(dkg): Implement real battle system here. Obviously. :-)
-            
-            var alreadySelected: [Int] = []
-            let numberOfPokemonsToChooseFrom = count > 3 ? 3 : count
-            for _ in 1...numberOfPokemonsToChooseFrom {
-                var rndIndex = randomInt(0...count - 1)
-                // make sure we only include a given pokemon once in the selection "screen"
-                while let _ = alreadySelected.indexOf(rndIndex) {
-                    rndIndex = randomInt(0...count - 1)
-                }
-                alreadySelected.append(rndIndex)
-                
-                let pokemon = backpack[rndIndex].pokemon
-                let pokemonToAttachWithAction = UIAlertAction(title: "Choose \(pokemon.name.capitalizedString)", style: .Default) { (action) in
-                    
-                    let winChance = randomInt(0...50) // TODO(dkg): use actual PokemonSpecies.capture_rate for this!
-                    let playerChance = randomInt(0...100)
-                    
-                    if playerChance <= winChance {
-                        self.putCaughtPokemonInBackpack(annotation,
-                                                        message: "You chose wisely and caught \(annotation.pokemon.name.capitalizedString).\nCongratulations!\nYou put it in your backpack.",
-                                                        title: "You Won!")
-                        
-                    } else {
-                        showErrorAlert(self, message: "You chose ... poorly.\n", title: "You Lost!", completion: {
-                            self.runAwayPokemon(annotation, message: "The \(annotation.pokemon.name.capitalizedString) ran away.", title: "Oh dear!")
-                        })
-                    }
-                }
-                actionSheet.addAction(pokemonToAttachWithAction)
-            }
-            
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
-            actionSheet.addAction(cancelAction)
-            
-            self.presentViewController(actionSheet, animated: true, completion: nil)
-        } else {
-            showErrorAlert(self, message: "You will need to catch at least one Pokemon first before you can battle others!", title: "No Pokemon!")
-        }
+        
+        assert(false, "implement me again")
+        
+//        // check if we have any pokemons in our backpack first.
+//        let backpack = DB().loadPokemonsFromBackpackAsPokemonAnnotations()
+//        let count = backpack.count
+//        if count > 0 {
+//            let actionSheet = UIAlertController(title: "Choose", message: "Which Pokemon do you want to use in the battle against \(annotation.pokemon.name.capitalizedString)?", preferredStyle: .ActionSheet)
+//            
+//            // TODO(dkg): Implement real battle system here. Obviously. :-)
+//            
+//            var alreadySelected: [Int] = []
+//            let numberOfPokemonsToChooseFrom = count > 3 ? 3 : count
+//            for _ in 1...numberOfPokemonsToChooseFrom {
+//                var rndIndex = randomInt(0...count - 1)
+//                // make sure we only include a given pokemon once in the selection "screen"
+//                while let _ = alreadySelected.indexOf(rndIndex) {
+//                    rndIndex = randomInt(0...count - 1)
+//                }
+//                alreadySelected.append(rndIndex)
+//                
+//                let pokemon = backpack[rndIndex].pokemon
+//                let pokemonToAttachWithAction = UIAlertAction(title: "Choose \(pokemon.name.capitalizedString)", style: .Default) { (action) in
+//                    
+//                    let winChance = randomInt(0...50) // TODO(dkg): use actual PokemonSpecies.capture_rate for this!
+//                    let playerChance = randomInt(0...100)
+//                    
+//                    if playerChance <= winChance {
+//                        self.putCaughtPokemonInBackpack(annotation,
+//                                                        message: "You chose wisely and caught \(annotation.pokemon.name.capitalizedString).\nCongratulations!\nYou put it in your backpack.",
+//                                                        title: "You Won!")
+//                        
+//                    } else {
+//                        showErrorAlert(self, message: "You chose ... poorly.\n", title: "You Lost!", completion: {
+//                            self.runAwayPokemon(annotation, message: "The \(annotation.pokemon.name.capitalizedString) ran away.", title: "Oh dear!")
+//                        })
+//                    }
+//                }
+//                actionSheet.addAction(pokemonToAttachWithAction)
+//            }
+//            
+//            let cancelAction = UIAlertAction(title: "Cancel", style: .Cancel, handler: nil)
+//            actionSheet.addAction(cancelAction)
+//            
+//            self.presentViewController(actionSheet, animated: true, completion: nil)
+//        } else {
+//            showErrorAlert(self, message: "You will need to catch at least one Pokemon first before you can battle others!", title: "No Pokemon!")
+//        }
     }
     
     func catchPokemon(annotation: PokemonAnnotation) {
@@ -417,21 +423,22 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
     }
     
     func putCaughtPokemonInBackpack(annotation: PokemonAnnotation, message: String, title: String) {
-        self.mapView?.removeAnnotation(annotation)
-        let index = self.pokemonAnnotations.indexOf(annotation)
-        self.pokemonAnnotations.removeAtIndex(index!)
-        
-        let pokemon = annotation.pokemon
-        let coords = annotation.coordinate
-        DB().savePokemonInBackpack(pokemon, latitude: coords.latitude, longitude: coords.longitude)
-        
-        // TODO(dkg): put pokemon in backpack!
-        showErrorAlert(self, message: message, title: title, completion: {
-            
-            if self.pokemonAnnotations.count == 0 {
-                self.scanMap(annotation)
-            }
-        })
+        assert(false, "implement me again")
+//        self.mapView?.removeAnnotation(annotation)
+//        let index = self.pokemonAnnotations.indexOf(annotation)
+//        self.pokemonAnnotations.removeAtIndex(index!)
+//        
+//        let pokemon = annotation.pokemon
+//        let coords = annotation.coordinate
+//        DB().savePokemonInBackpack(pokemon, latitude: coords.latitude, longitude: coords.longitude)
+//        
+//        // TODO(dkg): put pokemon in backpack!
+//        showErrorAlert(self, message: message, title: title, completion: {
+//            
+//            if self.pokemonAnnotations.count == 0 {
+//                self.scanMap(annotation)
+//            }
+//        })
     }
     
     func runAwayPokemon(annotation: PokemonAnnotation, message: String, title: String) {

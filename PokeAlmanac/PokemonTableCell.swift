@@ -24,11 +24,12 @@ public class PokemonTableCell : UITableViewCell {
     }
 
     public func setPokemonDataId(pokemonId: Int, thumb: UIImage? = nil) {
-        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
-            setPokemonData(pokemon, thumb: thumb)
-        } else {
-            log("could not load or convert Pokemon for ID \(pokemonId)")
-        }
+        assert(false, "implement me again")
+//        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
+//            setPokemonData(pokemon, thumb: thumb)
+//        } else {
+//            log("could not load or convert Pokemon for ID \(pokemonId)")
+//        }
     }
     
     public func setPokemonData(pokemon: Pokemon, thumb: UIImage? = nil) {

@@ -49,11 +49,12 @@ class PokemonDetailViewController: UIViewController {
     }
     
     internal func setPokemonDataId(pokemonId: Int, thumb: UIImage? = nil) {
-        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
-            setPokemonData(pokemon, thumb: thumb)
-        } else {
-            log("could not load or convert Pokemon for ID \(pokemonId)")
-        }
+//        if let pokemon = Transformer().jsonToPokemonModel(DB().getPokemonJSON(pokemonId)) {
+//            setPokemonData(pokemon, thumb: thumb)
+//        } else {
+//            log("could not load or convert Pokemon for ID \(pokemonId)")
+//        }
+        assert(false, "implement me again")
     }
     
     internal func setPokemonData(pokemon: Pokemon, thumb: UIImage? = nil) {
@@ -164,21 +165,22 @@ class PokemonDetailViewController: UIViewController {
         var speciesText: String = "\(self.pokemon!.species.name.capitalizedString)."
         let speciesUrl: String = self.pokemon!.species.url
         let speciesId: Int = self.dl.extractIdFromUrl(speciesUrl)
-        if let speciesJson: String = self.db.getCachedResponse(.PokemonSpecies, id: speciesId) {
+        if let speciesJson: String = self.db.getCachedResponse(.PokemonSpecies, requestId: speciesId) {
             speciesText += getSpeciesText(speciesJson)
         } else {
+            assert(false, "implement me again")
             // TODO(dkg): better error handling
-            self.dl.startDownload(speciesUrl, completed: { (json, error) in
-                if let json = json {
-                    self.db.insertOrUpdateCachedResponse(.PokemonSpecies, json: json, id: speciesId)
-                    // TODO(dkg): figure out if we are shown or not
-                    if let _ = self.view.window {
-                        if Tab(rawValue: (self.segmentedControl?.selectedSegmentIndex)!)! == Tab.Overview {
-                            self.showOverview() // load again
-                        }
-                    }
-                }
-            })
+//            self.dl.startDownload(speciesUrl, completed: { (json, error) in
+//                if let json = json {
+//                    self.db.insertOrUpdateCachedResponse(.PokemonSpecies, json: json, id: speciesId)
+//                    // TODO(dkg): figure out if we are shown or not
+//                    if let _ = self.view.window {
+//                        if Tab(rawValue: (self.segmentedControl?.selectedSegmentIndex)!)! == Tab.Overview {
+//                            self.showOverview() // load again
+//                        }
+//                    }
+//                }
+//            })
         }
         
         self.textInfo?.text = "Height: \(self.pokemon!.height), Weight: \(self.pokemon!.weight)\n\n" +
@@ -255,7 +257,7 @@ class PokemonDetailViewController: UIViewController {
             let url = move.url
             let id = dl.extractIdFromUrl(url)
             
-            if let json = self.db.getCachedResponse(.Move, id: id) {
+            if let json = self.db.getCachedResponse(.Move, requestId: id) {
                 counter += 1
                 if let move = self.transformer.jsonToMove(json) {
                     if let text = getMoveText(move) {
@@ -266,7 +268,8 @@ class PokemonDetailViewController: UIViewController {
                 dl.startDownload(url, completed: { (json, error) in
                     counter += 1
                     if let json = json {
-                        self.db.insertOrUpdateCachedResponse(.Move, json: json, id: id)
+                        assert(false, "implement me again")
+//                        self.db.insertOrUpdateCachedResponse(.Move, json: json, id: id)
                         // TODO(dkg): figure out if we are shown or not
                         // NOTE(dkg): do not do this within this loop
                         if let _ = self.view.window {
@@ -333,7 +336,7 @@ class PokemonDetailViewController: UIViewController {
             let url = form.url
             let id = dl.extractIdFromUrl(url)
             
-            if let json = self.db.getCachedResponse(.PokemonForm, id: id) {
+            if let json = self.db.getCachedResponse(.PokemonForm, requestId: id) {
                 counter += 1
                 if let form = self.transformer.jsonToPokemonForm(json) {
                     if let text = getFormText(form) {
@@ -344,7 +347,8 @@ class PokemonDetailViewController: UIViewController {
                 dl.startDownload(url, completed: { (json, error) in
                     counter += 1
                     if let json = json {
-                        self.db.insertOrUpdateCachedResponse(.PokemonForm, json: json, id: id)
+                        assert(false, "implement me again")
+//                        self.db.insertOrUpdateCachedResponse(.PokemonForm, json: json, id: id)
                         // TODO(dkg): figure out if we are shown or not
                         if let _ = self.view.window {
                             if count == counter && Tab(rawValue: (self.segmentedControl?.selectedSegmentIndex)!)! == Tab.Forms {
